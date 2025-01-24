@@ -20,5 +20,5 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "SneakerShop"
-include(":app")
+include(":presentation")
  
