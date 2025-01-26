@@ -15,9 +15,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -38,10 +40,11 @@ import com.example.sneakershop.ui.theme.customBlockColor
 import com.example.sneakershop.ui.theme.customDisableColor
 import com.example.sneakershop.ui.theme.customSubTextLightColor
 import com.example.sneakershop.ui.theme.customTextColor
+import com.example.sneakershop.ui.theme.newPeninimMTFontFamily
 
 @Composable
 fun Onboarding(
-    viewmodel: OnboardingViewmodel = OnboardingViewmodel()
+    viewmodel: OnboardingViewmodel
 ) {
     val state by viewmodel.state.collectAsState()
 
@@ -51,49 +54,50 @@ fun Onboarding(
         Color(43, 107, 139)
     ))
 
-    Surface(
-        modifier = Modifier.fillMaxSize()
-    ) {
-        Column(
-            verticalArrangement = Arrangement.Top,
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier
-                .background(gradient)
-                .fillMaxSize()
+        Surface(
+            modifier = Modifier.fillMaxSize()
         ) {
-            Spacer(modifier = Modifier.height(70.dp))
-            if(state.currentSlide == state.slidesList[0]) {
-                Text(
-                    text = state.currentSlide.title,
-                    fontSize = 30.sp,
-                    color = customBlockColor,
-                    textAlign = TextAlign.Center,
-                    lineHeight = 32.sp,
-                    modifier = Modifier.weight(0.5f)
-                )
-                Spacer(modifier = Modifier.height(120.dp))
-            }
-            OnboardingElement(
-                slide = state.currentSlide,
-                slidesList = state.slidesList,
-                modifier = Modifier.weight(3f)
-            )
-            CustomButton(
-                onClick = viewmodel::updateSlide,
-                color = customBlockColor,
-                text = state.currentSlide.buttonText,
-                textColor = customTextColor,
+            Column(
+                verticalArrangement = Arrangement.Top,
+                horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
-                    .weight(
-                        if (state.currentSlide == state.slidesList[0])
-                            0.36f
-                        else
-                            0.25f
+                    .background(gradient)
+                    .fillMaxSize()
+            ) {
+                Spacer(modifier = Modifier.height(70.dp))
+                if (state.currentSlide == state.slidesList[0]) {
+                    Text(
+                        text = state.currentSlide.title,
+                        fontSize = 30.sp,
+                        fontFamily = newPeninimMTFontFamily,
+                        color = customBlockColor,
+                        textAlign = TextAlign.Center,
+                        lineHeight = 32.sp,
+                        modifier = Modifier.weight(0.5f)
                     )
-                    .padding(horizontal = 20.dp)
-            )
-            Spacer(modifier = Modifier.height(35.dp))
-        }
+                    Spacer(modifier = Modifier.height(120.dp))
+                }
+                OnboardingElement(
+                    slide = state.currentSlide,
+                    slidesList = state.slidesList,
+                    modifier = Modifier.weight(3f)
+                )
+                CustomButton(
+                    onClick = viewmodel::updateSlide,
+                    color = customBlockColor,
+                    text = state.currentSlide.buttonText,
+                    textColor = customTextColor,
+                    modifier = Modifier
+                        .weight(
+                            if (state.currentSlide == state.slidesList[0])
+                                0.36f
+                            else
+                                0.25f
+                        )
+                        .padding(horizontal = 20.dp)
+                )
+                Spacer(modifier = Modifier.height(35.dp))
+            }
     }
 }
 
@@ -118,6 +122,7 @@ fun OnboardingElement(
                 Text(
                     text = slide.title,
                     fontSize = 34.sp,
+                    fontFamily = newPeninimMTFontFamily,
                     color = customBlockColor,
                     lineHeight = 42.sp,
                     textAlign = TextAlign.Center
@@ -126,6 +131,7 @@ fun OnboardingElement(
                 Text(
                     text = slide.description,
                     fontSize = 16.sp,
+                    fontFamily = newPeninimMTFontFamily,
                     color = customSubTextLightColor,
                     textAlign = TextAlign.Center
                 )
@@ -151,21 +157,15 @@ fun OnboardingSlider(
                     .padding(horizontal = 6.dp)
                     .clip(RoundedCornerShape(16.dp))
                     .background(
-                        if(currentSlide == slide)
+                        if (currentSlide == slide)
                             customBlockColor
                         else
                             customDisableColor
                     )
                     .animateContentSize(spring())
                     .height(5.dp)
-                    .width(if(currentSlide == slide) 43.dp else 28.dp,)
+                    .width(if (currentSlide == slide) 43.dp else 28.dp,)
             )
         }
     }
-}
-
-@Composable
-@Preview
-fun OnboardingPreview() {
-    Onboarding()
 }

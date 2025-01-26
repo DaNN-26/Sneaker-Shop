@@ -1,6 +1,7 @@
 package com.example.sneakershop.ui.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -21,6 +22,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sneakershop.R
 import com.example.sneakershop.ui.theme.customBackgroundColor
+import com.example.sneakershop.ui.theme.customHintColor
+import com.example.sneakershop.ui.theme.newPeninimMTFontFamily
 
 @Composable
 fun CustomTextField(
@@ -31,13 +34,20 @@ fun CustomTextField(
 ) {
     var isPasswordVisible by remember { mutableStateOf(false) }
 
+    val passwordHideIcon = if(isPasswordVisible)
+        R.drawable.eye_open
+    else
+        R.drawable.eye_close
+
     TextField(
         value = value,
         onValueChange = { onValueChange(it) },
         singleLine = true,
         placeholder = { Text(
             text = placeholderText,
-            fontSize = 14.sp
+            fontSize = 14.sp,
+            fontFamily = newPeninimMTFontFamily,
+            color = customHintColor
         ) },
         colors = TextFieldDefaults.colors(
             unfocusedContainerColor = customBackgroundColor,
@@ -53,7 +63,7 @@ fun CustomTextField(
             .fillMaxWidth()
             .shadow(1.dp, RoundedCornerShape(16.dp)),
 
-        visualTransformation = if(isPassword)
+        visualTransformation = if(isPassword && !isPasswordVisible)
             PasswordVisualTransformation()
         else
             VisualTransformation.None,
@@ -61,11 +71,10 @@ fun CustomTextField(
             if(isPassword)
                 IconButton(onClick = { isPasswordVisible = !isPasswordVisible }) {
                     Icon(
-                        painter = if(!isPasswordVisible)
-                            painterResource(id = R.drawable.eye_close)
-                        else
-                            painterResource(id = R.drawable.eye_open),
-                        contentDescription = "Hide password"
+                        painter = painterResource(id = passwordHideIcon),
+                        contentDescription = "Hide password",
+                        tint = customHintColor,
+                        modifier = Modifier.size(18.dp)
                     )
                 }
         }

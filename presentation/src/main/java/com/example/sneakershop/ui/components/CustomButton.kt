@@ -13,6 +13,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sneakershop.ui.theme.customBackgroundColor
+import com.example.sneakershop.ui.theme.newPeninimMTFontFamily
 
 @Composable
 fun CustomButton(
@@ -35,6 +36,7 @@ fun CustomButton(
         Text(
             text = text,
             fontSize = 14.sp,
+            fontFamily = newPeninimMTFontFamily,
             fontWeight = FontWeight.Light,
             color = textColor
         )

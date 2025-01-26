@@ -6,13 +6,17 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
-class OnboardingViewmodel() : ViewModel() {
+class OnboardingViewmodel(
+    private val navigateToHome: () -> Unit
+) : ViewModel() {
     private val _state = MutableStateFlow(OnboardingState())
     val state = _state.asStateFlow()
 
     fun updateSlide() {
         if(state.value.currentSlide != state.value.slidesList.last())
             _state.update { it.copy(currentSlide = it.currentSlide.nextSlide()) }
+        else
+            navigateToHome()
     }
 
     private fun OnboardingSlide.nextSlide(): OnboardingSlide {

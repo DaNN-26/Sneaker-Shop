@@ -11,6 +11,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -24,9 +26,14 @@ import com.example.sneakershop.ui.theme.customAccentColor
 import com.example.sneakershop.ui.theme.customBackgroundColor
 import com.example.sneakershop.ui.theme.customSubTextDarkColor
 import com.example.sneakershop.ui.theme.customTextColor
+import com.example.sneakershop.ui.theme.newPeninimMTFontFamily
 
 @Composable
-fun Login() {
+fun Login(
+    viewmodel: LoginViewmodel
+) {
+    val state by viewmodel.state.collectAsState()
+
     Surface(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -42,6 +49,7 @@ fun Login() {
                 Text(
                     text = "Привет!",
                     fontSize = 32.sp,
+                    fontFamily = newPeninimMTFontFamily,
                     color = customTextColor
                 )
                 Spacer(modifier = Modifier.height(8.dp))
@@ -49,15 +57,20 @@ fun Login() {
                     text = "Заполните свои данные или\nпродолжите через социальные медиа",
                     textAlign = TextAlign.Center,
                     fontSize = 16.sp,
+                    fontFamily = newPeninimMTFontFamily,
                     color = customSubTextDarkColor
                 )
                 Spacer(modifier = Modifier.height(35.dp))
                 LoginInputForm(
+                    email = state.email,
+                    onEmailChange = { viewmodel.updateEmail(it) },
+                    password = state.password,
+                    onPasswordChange = { viewmodel.updatePassword(it) },
                     onRecoverButtonClick = { /*TODO*/ }
                 )
                 Spacer(modifier = Modifier.height(10.dp))
                 CustomButton(
-                    onClick = { /*TODO*/ },
+                    onClick = { viewmodel.authorize() },
                     color = customAccentColor,
                     text = "Войти",
                     textColor = customBackgroundColor
@@ -71,32 +84,38 @@ fun Login() {
 
 @Composable
 fun LoginInputForm(
+    email: String,
+    onEmailChange: (String) -> Unit,
+    password: String,
+    onPasswordChange: (String) -> Unit,
     onRecoverButtonClick: () -> Unit
 ) {
     Column {
         Text(
             text = "Email",
             fontSize = 16.sp,
+            fontFamily = newPeninimMTFontFamily,
             color = customTextColor,
             modifier = Modifier.align(Alignment.Start)
         )
         Spacer(modifier = Modifier.height(12.dp))
         CustomTextField(
-            value = "",
-            onValueChange = {},
+            value = email,
+            onValueChange = { onEmailChange(it) },
             placeholderText = "xyz@gmail.com"
         )
         Spacer(modifier = Modifier.height(18.dp))
         Text(
             text = "Пароль",
             fontSize = 16.sp,
+            fontFamily = newPeninimMTFontFamily,
             color = customTextColor,
             modifier = Modifier.align(Alignment.Start)
         )
         Spacer(modifier = Modifier.height(12.dp))
         CustomTextField(
-            value = "",
-            onValueChange = {},
+            value = password,
+            onValueChange = { onPasswordChange(it) },
             placeholderText = "••••••••",
             isPassword = true
         )
@@ -108,6 +127,7 @@ fun LoginInputForm(
             Text(
                 text = "Восстановить",
                 fontSize = 12.sp,
+                fontFamily = newPeninimMTFontFamily,
                 color = customSubTextDarkColor
             )
         }
@@ -127,19 +147,15 @@ fun CreateAccountButton(
             Text(
                 text = "Вы впервые? ",
                 fontSize = 16.sp,
+                fontFamily = newPeninimMTFontFamily,
                 color = customSubTextDarkColor
             )
             Text(
                 text = "Создать пользователя",
                 fontSize = 16.sp,
+                fontFamily = newPeninimMTFontFamily,
                 color = customTextColor
             )
         }
     }
-}
-
-@Composable
-@Preview
-fun LoginPreview() {
-    Login()
 }
