@@ -27,7 +27,9 @@ fun SneakersTopBar(
     title: String,
     isHome: Boolean = false,
     navIcon: Painter,
-    actionsIcon: Painter
+    actionsIcon: Painter,
+    onNavIconClick: () -> Unit = {},
+    onActionsIconClick: () -> Unit = {}
 ) {
     TopAppBar(
         title = {
@@ -52,7 +54,7 @@ fun SneakersTopBar(
         },
         navigationIcon = {
             IconButton(
-                onClick = { /*TODO*/ },
+                onClick = onNavIconClick,
             ) {
                 Icon(
                     painter = navIcon,
@@ -63,7 +65,7 @@ fun SneakersTopBar(
         },
         actions = {
             IconButton(
-                onClick = { /*TODO*/ },
+                onClick = onActionsIconClick,
                 modifier = Modifier.size(44.dp)
             ) {
                 Icon(
