@@ -1,5 +1,6 @@
 package com.example.sneakershop.ui.auth.login
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,10 +17,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.sneakershop.navigation.NavigationGraph
 import com.example.sneakershop.ui.components.CustomButton
 import com.example.sneakershop.ui.components.CustomTextField
 import com.example.sneakershop.ui.theme.customAccentColor
@@ -27,10 +31,16 @@ import com.example.sneakershop.ui.theme.customBackgroundColor
 import com.example.sneakershop.ui.theme.customSubTextDarkColor
 import com.example.sneakershop.ui.theme.customTextColor
 import com.example.sneakershop.ui.theme.newPeninimMTFontFamily
+import java.lang.Error
+
+object LoginDestination : NavigationGraph {
+    override val route = "login"
+}
 
 @Composable
 fun Login(
-    viewmodel: LoginViewmodel
+    viewmodel: LoginViewmodel,
+    navigateToOnboarding: () -> Unit
 ) {
     val state by viewmodel.state.collectAsState()
 
@@ -66,11 +76,20 @@ fun Login(
                     onEmailChange = { viewmodel.updateEmail(it) },
                     password = state.password,
                     onPasswordChange = { viewmodel.updatePassword(it) },
-                    onRecoverButtonClick = { /*TODO*/ }
+                    onRecoverButtonClick = { /*TODO*/ },
+                    isError = state.isError,
+                    emailErrorText = state.emailErrorText
                 )
                 Spacer(modifier = Modifier.height(10.dp))
                 CustomButton(
-                    onClick = { viewmodel.authorize() },
+                    onClick = {
+                        try {
+                            viewmodel.authorize()
+                            navigateToOnboarding()
+                        } catch (e: Exception) {
+                            Log.d("Login", e.message.toString())
+                        }
+                    },
                     color = customAccentColor,
                     text = "Войти",
                     textColor = customBackgroundColor
@@ -88,7 +107,9 @@ fun LoginInputForm(
     onEmailChange: (String) -> Unit,
     password: String,
     onPasswordChange: (String) -> Unit,
-    onRecoverButtonClick: () -> Unit
+    onRecoverButtonClick: () -> Unit,
+    isError: Boolean,
+    emailErrorText: String
 ) {
     Column {
         Text(
@@ -102,7 +123,10 @@ fun LoginInputForm(
         CustomTextField(
             value = email,
             onValueChange = { onEmailChange(it) },
-            placeholderText = "xyz@gmail.com"
+            placeholderText = if(!isError) "xyz@gmail.com" else emailErrorText,
+            isError = isError,
+            keyboardType = KeyboardType.Email,
+            imeAction = ImeAction.Next
         )
         Spacer(modifier = Modifier.height(18.dp))
         Text(
@@ -117,7 +141,10 @@ fun LoginInputForm(
             value = password,
             onValueChange = { onPasswordChange(it) },
             placeholderText = "••••••••",
-            isPassword = true
+            isError = isError,
+            isPassword = true,
+            keyboardType = KeyboardType.Password,
+            imeAction = ImeAction.Done
         )
         TextButton(
             onClick = onRecoverButtonClick,

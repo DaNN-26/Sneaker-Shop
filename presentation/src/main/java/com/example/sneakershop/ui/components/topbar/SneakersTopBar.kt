@@ -1,24 +1,35 @@
 package com.example.sneakershop.ui.components.topbar
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sneakershop.R
+import com.example.sneakershop.ui.theme.customAccentColor
+import com.example.sneakershop.ui.theme.customBackgroundColor
+import com.example.sneakershop.ui.theme.customBlockColor
 import com.example.sneakershop.ui.theme.newPeninimMTFontFamily
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -52,30 +63,67 @@ fun SneakersTopBar(
                 )
             }
         },
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = customBackgroundColor,
+            scrolledContainerColor = customBackgroundColor
+        ),
         navigationIcon = {
-            IconButton(
-                onClick = onNavIconClick,
-            ) {
-                Icon(
-                    painter = navIcon,
-                    contentDescription = null,
-                    tint = Color.Unspecified
-                )
-            }
+            if(isHome)
+                IconButton(
+                    onClick = onNavIconClick,
+                    modifier = Modifier.padding(start = 20.dp)
+                ) {
+                    Icon(
+                        painter = navIcon,
+                        contentDescription = null,
+                        tint = Color.Unspecified
+                    )
+                }
+            else
+                IconButton(
+                    onClick = onNavIconClick,
+                    colors = IconButtonDefaults.iconButtonColors(
+                        containerColor = customBlockColor
+                    ),
+                    modifier = Modifier
+                        .padding(start = 20.dp)
+                        .size(44.dp)
+                ) {
+                    Icon(
+                        painter = navIcon,
+                        contentDescription = null,
+                        tint = Color.Unspecified
+                    )
+                }
         },
         actions = {
-            IconButton(
-                onClick = onActionsIconClick,
-                modifier = Modifier.size(44.dp)
-            ) {
+            if(isHome)
                 Icon(
                     painter = actionsIcon,
                     contentDescription = null,
                     tint = Color.Unspecified,
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier
+                        .padding(end = 20.dp)
+                        .clip(RoundedCornerShape(8.dp))
+                        .clickable { onActionsIconClick() }
                 )
-            }
+            else
+                IconButton(
+                    onClick = onActionsIconClick,
+                    colors = IconButtonDefaults.iconButtonColors(
+                        containerColor = customBlockColor
+                    ),
+                    modifier = Modifier
+                        .padding(end = 20.dp)
+                        .size(44.dp)
+                ) {
+                    Icon(
+                        painter = actionsIcon,
+                        contentDescription = null,
+                        tint = Color.Unspecified
+                    )
+                }
         },
-        modifier = Modifier.padding(horizontal = 20.dp)
+        modifier = Modifier
     )
 }

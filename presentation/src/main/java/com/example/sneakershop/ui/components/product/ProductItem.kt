@@ -40,6 +40,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.domain.model.Product
+import com.example.domain.model.ProductCategory
 import com.example.sneakershop.R
 import com.example.sneakershop.ui.theme.customAccentColor
 import com.example.sneakershop.ui.theme.customBackgroundColor
@@ -60,14 +61,18 @@ fun ProductItem(
     product: Product,
     onCardClick: () -> Unit,
     onFavoriteIconClick: () -> Unit,
-    onButtonClick: () -> Unit
+    onButtonClick: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Card(
         onClick = onCardClick,
         colors = CardDefaults.cardColors(
             containerColor = customBlockColor
         ),
-        modifier = Modifier.size(160.dp, 182.dp)
+        elevation = CardDefaults.cardElevation(
+            1.dp
+        ),
+        modifier = modifier.size(160.dp, 182.dp)
     ) {
         Column(
             modifier = Modifier
@@ -213,7 +218,9 @@ fun ProductItemPreview() {
             id = 1,
             title = "Nike Air Max",
             image = R.drawable.nike_test_image,
+            category = ProductCategory.TENNIS,
             isFavorite = false,
+            isPopular = true,
             price = 752.00f,
             isInShoppingCart = false
         ),

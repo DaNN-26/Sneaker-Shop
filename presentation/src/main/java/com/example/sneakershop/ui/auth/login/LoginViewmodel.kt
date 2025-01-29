@@ -5,9 +5,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
-class LoginViewmodel(
-    private val navigateToOnboarding: () -> Unit
-) : ViewModel() {
+class LoginViewmodel() : ViewModel() {
     private val _state = MutableStateFlow(LoginState())
     val state = _state.asStateFlow()
 
@@ -20,6 +18,13 @@ class LoginViewmodel(
     }
 
     fun authorize() {
-        navigateToOnboarding()
+        val emailRegex = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+".toRegex()
+        if(!state.value.email.matches(emailRegex)) {
+            _state.update { it.copy(
+                isError = true,
+                emailErrorText = "Такого email не существует"
+            ) }
+            throw Exception("Invalid email")
+        }
     }
 }

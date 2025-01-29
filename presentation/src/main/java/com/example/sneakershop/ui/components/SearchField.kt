@@ -11,6 +11,7 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -23,7 +24,8 @@ import com.example.sneakershop.ui.theme.newPeninimMTFontFamily
 fun SearchField(
     value: String,
     onValueChange: (String) -> Unit,
-    enabled: Boolean = true
+    enabled: Boolean = true,
+    modifier: Modifier = Modifier
 ) {
     TextField(
         value = value,
@@ -49,8 +51,8 @@ fun SearchField(
             focusedIndicatorColor = customBlockColor,
             disabledIndicatorColor = customBlockColor
         ),
-        modifier = Modifier
-            .shadow(6.dp, RoundedCornerShape(16.dp)),
+        modifier = modifier
+            .shadow(2.dp, RoundedCornerShape(16.dp), spotColor = Color.Gray),
         leadingIcon = {
             Icon(
                 painter = painterResource(id = R.drawable.search),
