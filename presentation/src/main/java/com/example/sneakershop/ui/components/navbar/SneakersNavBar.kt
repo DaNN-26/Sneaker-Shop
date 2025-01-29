@@ -48,7 +48,9 @@ fun SneakersNavBar() {
 
     NavigationBar(
         containerColor = Color.Unspecified,
-        modifier = Modifier.size(375.dp, 106.dp)
+        modifier = Modifier
+            .fillMaxWidth()
+            .size(375.dp, 106.dp)
     ) {
         Box(
             contentAlignment = Alignment.Center,

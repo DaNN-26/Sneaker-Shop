@@ -26,6 +26,8 @@ import androidx.compose.ui.unit.sp
 import com.example.sneakershop.R
 import com.example.sneakershop.ui.theme.customBackgroundColor
 import com.example.sneakershop.ui.theme.customHintColor
+import com.example.sneakershop.ui.theme.customRedColor
+import com.example.sneakershop.ui.theme.customTextColor
 import com.example.sneakershop.ui.theme.newPeninimMTFontFamily
 
 @Composable
@@ -64,7 +66,9 @@ fun CustomTextField(
             unfocusedIndicatorColor = customBackgroundColor,
             errorIndicatorColor = customBackgroundColor,
             focusedIndicatorColor = customBackgroundColor,
-            disabledIndicatorColor = customBackgroundColor
+            disabledIndicatorColor = customBackgroundColor,
+            cursorColor = customTextColor,
+            errorCursorColor = customTextColor
         ),
         keyboardOptions = KeyboardOptions(
             keyboardType = keyboardType,

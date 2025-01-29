@@ -1,6 +1,7 @@
 package com.example.sneakershop.ui.main.home
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -11,16 +12,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -34,31 +29,26 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.domain.model.Product
+import com.example.domain.model.ProductCategory
 import com.example.sneakershop.R
-import com.example.sneakershop.datasource.ProductDatasource
-import com.example.sneakershop.navigation.NavigationGraph
 import com.example.sneakershop.ui.components.SearchField
+import com.example.sneakershop.ui.components.main.CategoriesRow
 import com.example.sneakershop.ui.components.navbar.SneakersNavBar
 import com.example.sneakershop.ui.components.product.ProductItem
 import com.example.sneakershop.ui.components.topbar.SneakersTopBar
 import com.example.sneakershop.ui.theme.customAccentColor
-import com.example.sneakershop.ui.theme.customBlockColor
+import com.example.sneakershop.ui.theme.customBackgroundColor
 import com.example.sneakershop.ui.theme.customTextColor
 import com.example.sneakershop.ui.theme.newPeninimMTFontFamily
-import com.example.sneakershop.ui.theme.ralewayFontFamily
-
-object HomeDestination : NavigationGraph {
-    override val route = "home"
-}
 
 @Composable
 fun Home(
-    viewmodel: HomeViewmodel
+    viewmodel: HomeViewmodel,
+    navigateToCatalogue: (ProductCategory) -> Unit,
+    navigateToPopular: () -> Unit
 ) {
     val state by viewmodel.state.collectAsState()
 
@@ -74,11 +64,12 @@ fun Home(
         bottomBar = {
             SneakersNavBar()
         }
-    ) {
+    ) { contentPaddng ->
         Column(
             modifier = Modifier
+                .background(customBackgroundColor)
                 .fillMaxSize()
-                .padding(it)
+                .padding(contentPaddng)
                 .padding(top = 10.dp, start = 20.dp)
                 .verticalScroll(rememberScrollState())
         ) {
@@ -86,14 +77,21 @@ fun Home(
                 onFiltersButtonClick = { /*TODO*/ }
             )
             Spacer(modifier = Modifier.height(14.dp))
-            HomeCategories(
-                categoriesList = listOf("Все", "Outdoor", "Tennis", "Running"),
-                onCategoryCardClick = { /*TODO*/ }
+            CategoriesRow(
+                categoriesList = listOf(
+                    ProductCategory.ALL,
+                    ProductCategory.OUTDOOR,
+                    ProductCategory.TENNIS,
+                    ProductCategory.RUNNING
+                ),
+                onCategoryCardClick = { category ->
+                    navigateToCatalogue(category)
+                }
             )
             Spacer(modifier = Modifier.height(24.dp))
             HomePopularProducts(
                 productsList = state.popularProducts,
-                onAllButtonClick = { /*TODO*/ },
+                onAllButtonClick = navigateToPopular,
                 onCardClick = { /*TODO*/ },
                 onFavoriteIconClick = { /*TODO*/ },
                 onButtonClick = { /*TODO*/ }
@@ -135,51 +133,6 @@ fun HomeSearchBar(
                 .clip(CircleShape)
                 .clickable { onFiltersButtonClick() }
         )
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun HomeCategories(
-    categoriesList: List<String>,
-    onCategoryCardClick: () -> Unit
-) {
-    Column(
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        Text(
-            text = "Категории",
-            fontSize = 16.sp,
-            fontFamily = newPeninimMTFontFamily,
-            color = customTextColor
-        )
-        Spacer(modifier = Modifier.height(19.dp))
-        LazyRow {
-            items(categoriesList) {
-                Card(
-                    onClick = onCategoryCardClick,
-                    elevation = CardDefaults.cardElevation(1.dp),
-                    shape = RoundedCornerShape(8.dp),
-                    colors = CardDefaults.cardColors(
-                        containerColor = customBlockColor
-                    ),
-                    modifier = Modifier
-                        .padding(end = 16.dp)
-                        .size(108.dp, 40.dp)
-                ) {
-                    Text(
-                        text = it,
-                        fontSize = 12.sp,
-                        fontFamily = ralewayFontFamily,
-                        fontWeight = FontWeight.Medium,
-                        color = customTextColor,
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .wrapContentSize()
-                    )
-                }
-            }
-        }
     }
 }
 
@@ -279,10 +232,4 @@ fun HomeDiscounts(
                 .clickable { onDiscountButtonClick() }
         )
     }
-}
-
-@Preview
-@Composable
-fun HomePreview() {
-    Home(HomeViewmodel())
 }

@@ -1,47 +1,55 @@
 package com.example.sneakershop.ui.main.popular
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.example.sneakershop.R
-import com.example.sneakershop.navigation.NavigationGraph
+import com.example.sneakershop.ui.components.main.ProductsGrid
 import com.example.sneakershop.ui.components.topbar.SneakersTopBar
 import com.example.sneakershop.ui.theme.customBackgroundColor
 
-object PopularDestination : NavigationGraph {
-    override val route = "popular"
-}
-
 @Composable
-fun Popular() {
+fun Popular(
+    viewmodel: PopularViewmodel,
+    navigateBack: () -> Unit
+) {
+    val state by viewmodel.state.collectAsState()
+
     Scaffold(
         topBar = {
             SneakersTopBar(
                 title = "Популярное",
                 navIcon = painterResource(R.drawable.back),
-                actionsIcon = painterResource(R.drawable.favorite)
+                actionsIcon = painterResource(R.drawable.favorite),
+                onNavIconClick = navigateBack
             )
         }
-    ) {
-        Column(
+    ) { contentPadding ->
+        ProductsGrid(
+            productsList = state.popularProducts,
+            onCardClick = { /*TODO*/ },
+            onFavoriteIconClick = { /*TODO*/ },
+            onButtonClick = { /*TODO*/ },
             modifier = Modifier
-                .fillMaxSize()
-                .padding(it)
                 .background(customBackgroundColor)
-        ) {
-
-        }
+                .padding(contentPadding)
+                .padding(top = 20.dp)
+        )
     }
 }
 
 @Composable
 @Preview
 fun PopularPreview() {
-    Popular()
+    Popular(
+        PopularViewmodel(),
+        {}
+    )
 }

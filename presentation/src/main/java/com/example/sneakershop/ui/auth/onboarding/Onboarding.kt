@@ -41,9 +41,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.sneakershop.datasource.OnboardingSlidesDatasource
+import com.example.sneakershop.datasource.SneakersDatasource
 import com.example.sneakershop.model.OnboardingSlide
-import com.example.sneakershop.navigation.NavigationGraph
 import com.example.sneakershop.ui.components.CustomButton
 import com.example.sneakershop.ui.theme.customBlockColor
 import com.example.sneakershop.ui.theme.customDisableColor
@@ -53,16 +52,12 @@ import com.example.sneakershop.ui.theme.newPeninimMTFontFamily
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-object OnboardingDestination : NavigationGraph {
-    override val route = "onboarding"
-}
-
 @Composable
 fun Onboarding(
     navigateToHome: () -> Unit
 ) {
 
-    val slidesList by remember { mutableStateOf(OnboardingSlidesDatasource.list) }
+    val slidesList by remember { mutableStateOf(SneakersDatasource.onboardingSlides) }
 
     val gradient = Brush.linearGradient(colors = listOf(
         Color(72, 178, 231),

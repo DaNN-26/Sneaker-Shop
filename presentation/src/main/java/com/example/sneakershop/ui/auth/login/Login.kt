@@ -1,6 +1,7 @@
 package com.example.sneakershop.ui.auth.login
 
 import android.util.Log
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,14 +17,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.sneakershop.navigation.NavigationGraph
 import com.example.sneakershop.ui.components.CustomButton
 import com.example.sneakershop.ui.components.CustomTextField
 import com.example.sneakershop.ui.theme.customAccentColor
@@ -31,11 +29,7 @@ import com.example.sneakershop.ui.theme.customBackgroundColor
 import com.example.sneakershop.ui.theme.customSubTextDarkColor
 import com.example.sneakershop.ui.theme.customTextColor
 import com.example.sneakershop.ui.theme.newPeninimMTFontFamily
-import java.lang.Error
-
-object LoginDestination : NavigationGraph {
-    override val route = "login"
-}
+import kotlinx.serialization.Serializable
 
 @Composable
 fun Login(
@@ -50,51 +44,50 @@ fun Login(
         Column(
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.padding(
-                top = 121.dp,
-                start = 20.dp,
-                end = 20.dp
-            )
+            modifier = Modifier
+                .background(customBackgroundColor)
+                .padding(horizontal = 20.dp)
         ) {
-                Text(
-                    text = "Привет!",
-                    fontSize = 32.sp,
-                    fontFamily = newPeninimMTFontFamily,
-                    color = customTextColor
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = "Заполните свои данные или\nпродолжите через социальные медиа",
-                    textAlign = TextAlign.Center,
-                    fontSize = 16.sp,
-                    fontFamily = newPeninimMTFontFamily,
-                    color = customSubTextDarkColor
-                )
-                Spacer(modifier = Modifier.height(35.dp))
-                LoginInputForm(
-                    email = state.email,
-                    onEmailChange = { viewmodel.updateEmail(it) },
-                    password = state.password,
-                    onPasswordChange = { viewmodel.updatePassword(it) },
-                    onRecoverButtonClick = { /*TODO*/ },
-                    isError = state.isError,
-                    emailErrorText = state.emailErrorText
-                )
-                Spacer(modifier = Modifier.height(10.dp))
-                CustomButton(
-                    onClick = {
-                        try {
-                            viewmodel.authorize()
-                            navigateToOnboarding()
-                        } catch (e: Exception) {
-                            Log.d("Login", e.message.toString())
-                        }
-                    },
-                    color = customAccentColor,
-                    text = "Войти",
-                    textColor = customBackgroundColor
-                )
-            }
+            Spacer(modifier = Modifier.height(121.dp))
+            Text(
+                text = "Привет!",
+                fontSize = 32.sp,
+                fontFamily = newPeninimMTFontFamily,
+                color = customTextColor
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = "Заполните свои данные или\nпродолжите через социальные медиа",
+                textAlign = TextAlign.Center,
+                fontSize = 16.sp,
+                fontFamily = newPeninimMTFontFamily,
+                color = customSubTextDarkColor
+            )
+            Spacer(modifier = Modifier.height(35.dp))
+            LoginInputForm(
+                email = state.email,
+                onEmailChange = { viewmodel.updateEmail(it) },
+                password = state.password,
+                onPasswordChange = { viewmodel.updatePassword(it) },
+                onRecoverButtonClick = { /*TODO*/ },
+                isError = state.isError,
+                emailErrorText = state.emailErrorText
+            )
+            Spacer(modifier = Modifier.height(10.dp))
+            CustomButton(
+                onClick = {
+                    try {
+                        viewmodel.authorize()
+                        navigateToOnboarding()
+                    } catch (e: Exception) {
+                        Log.d("Login", e.message.toString())
+                    }
+                },
+                color = customAccentColor,
+                text = "Войти",
+                textColor = customBackgroundColor
+            )
+        }
         CreateAccountButton(
             onCreateAccountButtonClick = { /*TODO*/ }
         )

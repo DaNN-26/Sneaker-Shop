@@ -69,9 +69,6 @@ fun ProductItem(
         colors = CardDefaults.cardColors(
             containerColor = customBlockColor
         ),
-        elevation = CardDefaults.cardElevation(
-            1.dp
-        ),
         modifier = modifier.size(160.dp, 182.dp)
     ) {
         Column(
