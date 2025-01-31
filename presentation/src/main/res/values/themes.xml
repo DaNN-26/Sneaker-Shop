@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.SneakerShop" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.SneakerShop" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">#48B2E7</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher_round</item>
+        <item name="postSplashScreenTheme">@style/Theme.AppCompat.Light.NoActionBar</item>
+    </style>
 </resources>

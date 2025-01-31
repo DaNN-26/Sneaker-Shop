@@ -98,4 +98,7 @@ dependencies {
     //coil
     implementation("io.coil-kt.coil3:coil-compose:$coilVersion")
     implementation("io.coil-kt.coil3:coil-network-okhttp:$coilVersion")
+
+    //splash
+    implementation("androidx.core:core-splashscreen:1.0.1")
 }
