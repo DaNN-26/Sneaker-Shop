@@ -74,7 +74,6 @@ fun ProductItem(
                 fontWeight = FontWeight.Medium,
                 color = customAccentColor
             )
-            Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = product.title,
                 fontSize = 16.sp,
@@ -84,7 +83,7 @@ fun ProductItem(
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
-            Spacer(modifier = Modifier.height(6.dp))
+            Spacer(modifier = Modifier.height(4.dp))
             ProductPrice(
                 price = String
                     .format("%.2f", product.price)

@@ -71,13 +71,13 @@ fun Home(
                 .background(customBackgroundColor)
                 .fillMaxSize()
                 .padding(contentPadding)
-                .padding(top = 10.dp, start = 20.dp)
+                .padding(top = 5.dp, start = 20.dp)
                 .verticalScroll(rememberScrollState())
         ) {
             HomeSearchBar(
                 onFiltersButtonClick = { /*TODO*/ }
             )
-            Spacer(modifier = Modifier.height(14.dp))
+            Spacer(modifier = Modifier.height(10.dp))
             CategoriesRow(
                 categoriesList = SneakersDatasource.categories,
                 onCategoryCardClick = { category ->

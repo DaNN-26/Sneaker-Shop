@@ -21,6 +21,8 @@ class LoginViewmodel() : ViewModel() {
         val emailRegex = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+".toRegex()
         if(!state.value.email.matches(emailRegex)) {
             _state.update { it.copy(
+                email = "",
+                password = "",
                 isError = true,
                 emailErrorText = "Такого email не существует"
             ) }
