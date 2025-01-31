@@ -21,7 +21,7 @@ fun NavigationHost() {
     val navController = rememberNavController()
     NavHost(
         navController = navController,
-        startDestination = NavDestination.Home
+        startDestination = NavDestination.Login
     ) {
         composable<NavDestination.Login> {
             val viewmodel = LoginViewmodel()
