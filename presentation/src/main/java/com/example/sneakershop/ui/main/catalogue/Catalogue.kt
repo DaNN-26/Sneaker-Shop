@@ -8,11 +8,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.example.domain.model.ProductCategory
 import com.example.sneakershop.R
 import com.example.sneakershop.ui.components.main.CategoriesRow
 import com.example.sneakershop.ui.components.main.ProductsGrid
@@ -22,9 +24,14 @@ import com.example.sneakershop.ui.theme.customBackgroundColor
 @Composable
 fun Catalogue(
     viewmodel: CatalogueViewmodel,
+    category: ProductCategory,
     navigateBack: () -> Unit
 ) {
     val state by viewmodel.state.collectAsState()
+
+    LaunchedEffect(Unit) {
+        viewmodel.setCategory(category)
+    }
 
     Scaffold(
         topBar = {

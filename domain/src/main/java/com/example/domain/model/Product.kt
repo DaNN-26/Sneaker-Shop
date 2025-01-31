@@ -1,12 +1,15 @@
 package com.example.domain.model
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Product(
     val id: Int,
     val title: String,
-    val image: Int, //TODO При интеграции с БД переделать на String
+    val description: String,
+    val image: String,
     val price: Float,
-    val category: ProductCategory,
     val isPopular: Boolean,
-    val isFavorite: Boolean,
-    val isInShoppingCart: Boolean
+    val category: ProductCategory,
+    val gender: ProductGender
 )

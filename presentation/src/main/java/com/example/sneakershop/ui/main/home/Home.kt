@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.sp
 import com.example.domain.model.Product
 import com.example.domain.model.ProductCategory
 import com.example.sneakershop.R
+import com.example.sneakershop.datasource.SneakersDatasource
 import com.example.sneakershop.ui.components.SearchField
 import com.example.sneakershop.ui.components.main.CategoriesRow
 import com.example.sneakershop.ui.components.navbar.SneakersNavBar
@@ -64,12 +65,12 @@ fun Home(
         bottomBar = {
             SneakersNavBar()
         }
-    ) { contentPaddng ->
+    ) { contentPadding ->
         Column(
             modifier = Modifier
                 .background(customBackgroundColor)
                 .fillMaxSize()
-                .padding(contentPaddng)
+                .padding(contentPadding)
                 .padding(top = 10.dp, start = 20.dp)
                 .verticalScroll(rememberScrollState())
         ) {
@@ -78,12 +79,7 @@ fun Home(
             )
             Spacer(modifier = Modifier.height(14.dp))
             CategoriesRow(
-                categoriesList = listOf(
-                    ProductCategory.ALL,
-                    ProductCategory.OUTDOOR,
-                    ProductCategory.TENNIS,
-                    ProductCategory.RUNNING
-                ),
+                categoriesList = SneakersDatasource.categories,
                 onCategoryCardClick = { category ->
                     navigateToCatalogue(category)
                 }

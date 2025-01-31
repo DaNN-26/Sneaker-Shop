@@ -1,6 +1,7 @@
 package com.example.sneakershop.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -47,7 +48,7 @@ fun NavigationHost() {
             )
         }
         composable<NavDestination.Home> {
-            val viewmodel = HomeViewmodel()
+            val viewmodel = hiltViewModel<HomeViewmodel>()
             Home(
                 viewmodel = viewmodel,
                 navigateToCatalogue = { navController.navigate(NavDestination.Catalogue(it)) },
@@ -55,7 +56,7 @@ fun NavigationHost() {
             )
         }
         composable<NavDestination.Popular> {
-            val viewmodel = PopularViewmodel()
+            val viewmodel = hiltViewModel<PopularViewmodel>()
             Popular(
                 viewmodel = viewmodel,
                 navigateBack = { navController.popBackStack() }
@@ -63,9 +64,10 @@ fun NavigationHost() {
         }
         composable<NavDestination.Catalogue> {
             val catalogue: NavDestination.Catalogue = it.toRoute()
-            val viewmodel = CatalogueViewmodel(category = catalogue.category)
+            val viewmodel = hiltViewModel<CatalogueViewmodel>()
             Catalogue(
                 viewmodel = viewmodel,
+                category = catalogue.category,
                 navigateBack = { navController.popBackStack() }
             )
         }

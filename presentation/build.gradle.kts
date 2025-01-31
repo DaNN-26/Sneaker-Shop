@@ -1,6 +1,10 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.compose.compiler)
+
+    id("kotlin-kapt")
+    id("com.google.dagger.hilt.android") version "2.51.1"
 
     kotlin("plugin.serialization") version "2.0.0"
 }
@@ -11,7 +15,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.sneakershop"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -52,8 +56,12 @@ android {
 }
 
 val navVersion: String by project
+val hiltVersion: String by project
+val coilVersion: String by project
+val supabaseVersion: String by project
 
 dependencies {
+    implementation(project(":data"))
     implementation(project(":domain"))
 
     implementation(libs.androidx.core.ktx)
@@ -72,9 +80,22 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
+    //supabase
+    implementation(platform("io.github.jan-tennert.supabase:bom:$supabaseVersion"))
+    implementation("io.github.jan-tennert.supabase:postgrest-kt")
+
     //navigation
     implementation("androidx.navigation:navigation-compose:$navVersion")
 
     //serialization
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
+
+    //hilt
+    implementation("com.google.dagger:hilt-android:$hiltVersion")
+    kapt("com.google.dagger:hilt-compiler:$hiltVersion")
+    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
+
+    //coil
+    implementation("io.coil-kt.coil3:coil-compose:$coilVersion")
+    implementation("io.coil-kt.coil3:coil-network-okhttp:$coilVersion")
 }

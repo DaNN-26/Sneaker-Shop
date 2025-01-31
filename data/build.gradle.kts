@@ -9,7 +9,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.domain"
+    namespace = "com.example.data"
     compileSdk = 35
 
     defaultConfig {
@@ -37,9 +37,13 @@ android {
     }
 }
 
+val supabaseVersion: String by project
+val ktorVersion: String by project
 val hiltVersion: String by project
 
 dependencies {
+    implementation(project(":domain"))
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -47,10 +51,14 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
+    //supabase
+    implementation(platform("io.github.jan-tennert.supabase:bom:$supabaseVersion"))
+    implementation("io.github.jan-tennert.supabase:postgrest-kt")
+
+    //ktor
+    implementation("io.ktor:ktor-client-android:$ktorVersion")
+
     //hilt
     implementation("com.google.dagger:hilt-android:$hiltVersion")
     kapt("com.google.dagger:hilt-compiler:$hiltVersion")
-
-    //serialization
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
 }

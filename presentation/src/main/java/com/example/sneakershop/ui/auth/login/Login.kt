@@ -29,7 +29,6 @@ import com.example.sneakershop.ui.theme.customBackgroundColor
 import com.example.sneakershop.ui.theme.customSubTextDarkColor
 import com.example.sneakershop.ui.theme.customTextColor
 import com.example.sneakershop.ui.theme.newPeninimMTFontFamily
-import kotlinx.serialization.Serializable
 
 @Composable
 fun Login(

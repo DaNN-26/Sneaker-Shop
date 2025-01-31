@@ -1,8 +1,6 @@
 package com.example.sneakershop.ui.components.product
 
 import android.annotation.SuppressLint
-import androidx.annotation.DrawableRes
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -15,14 +13,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -30,32 +24,23 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.focus.focusModifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil3.compose.AsyncImage
 import com.example.domain.model.Product
-import com.example.domain.model.ProductCategory
 import com.example.sneakershop.R
 import com.example.sneakershop.ui.theme.customAccentColor
 import com.example.sneakershop.ui.theme.customBackgroundColor
 import com.example.sneakershop.ui.theme.customBlockColor
 import com.example.sneakershop.ui.theme.customHintColor
-import com.example.sneakershop.ui.theme.customRedColor
 import com.example.sneakershop.ui.theme.customTextColor
-import com.example.sneakershop.ui.theme.newPeninimMTFontFamily
 import com.example.sneakershop.ui.theme.poppinsFontFamily
 import com.example.sneakershop.ui.theme.ralewayFontFamily
-import kotlin.math.max
-import kotlin.math.roundToInt
 
 @SuppressLint("DefaultLocale")
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProductItem(
     product: Product,
@@ -79,7 +64,7 @@ fun ProductItem(
             ProductImage(
                 image = product.image,
                 onFavoriteIconClick = onFavoriteIconClick,
-                isFavorite = product.isFavorite
+                //isFavorite = product.isFavorite
             )
             Spacer(modifier = Modifier.height(12.dp))
             Text(
@@ -104,7 +89,7 @@ fun ProductItem(
                 price = String
                     .format("%.2f", product.price)
                     .replace(",", "."),
-                isInShoppingCart = product.isInShoppingCart,
+                //isInShoppingCart = product.isInShoppingCart,
                 onButtonClick = onButtonClick
             )
         }
@@ -113,21 +98,23 @@ fun ProductItem(
 
 @Composable
 fun ProductImage(
-    image: Int,
-    isFavorite: Boolean,
+    image: String,
+    //isFavorite: Boolean,
     onFavoriteIconClick: () -> Unit
 ) {
-    val favoriteIcon = if(isFavorite)
-        R.drawable.favorite_fill
-    else
-        R.drawable.favorite
+//    val favoriteIcon = if(isFavorite)
+//        R.drawable.favorite_fill
+//    else
+//        R.drawable.favorite
+//
+//    val favoriteIconTint = if(isFavorite)
+//        customRedColor
+//    else
+//        customTextColor
 
-    val favoriteIconTint = if(isFavorite)
-        customRedColor
-    else
-        customTextColor
-
-    Box {
+    Box(
+        modifier = Modifier.fillMaxWidth()
+    ) {
         Box(
             modifier = Modifier
                 .size(28.dp)
@@ -138,20 +125,20 @@ fun ProductImage(
                 onClick = onFavoriteIconClick
             ) {
                 Icon(
-                    painter = painterResource(id = favoriteIcon),
+                    painter = painterResource(id = R.drawable.favorite),
                     contentDescription = null,
-                    tint = favoriteIconTint,
+                    tint = customTextColor,
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(5.dp)
                 )
             }
         }
-        Image(
-            painter = painterResource(id = image),
+        AsyncImage(
+            model = image,
             contentDescription = null,
             modifier = Modifier
-                .fillMaxWidth()
+                .align(Alignment.Center)
                 .padding(top = 6.dp)
                 .size(117.dp, 70.dp)
         )
@@ -161,18 +148,18 @@ fun ProductImage(
 @Composable
 fun ProductPrice(
     price: String,
-    isInShoppingCart: Boolean,
+    //isInShoppingCart: Boolean,
     onButtonClick: () -> Unit
 ) {
-    val buttonIcon = if(isInShoppingCart)
-        R.drawable.cart
-    else
-        R.drawable.add
-
-    val buttonIconSize = if(isInShoppingCart)
-        12.dp
-    else
-        24.dp
+//    val buttonIcon = if(isInShoppingCart)
+//        R.drawable.cart
+//    else
+//        R.drawable.add
+//
+//    val buttonIconSize = if(isInShoppingCart)
+//        12.dp
+//    else
+//        24.dp
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -196,33 +183,13 @@ fun ProductPrice(
                 .clickable { onButtonClick() }
         ) {
             Icon(
-                painter = painterResource(id = buttonIcon),
+                painter = painterResource(id = R.drawable.add),
                 contentDescription = null,
                 tint = customBlockColor,
                 modifier = Modifier
                     .padding(start = 2.dp)
-                    .size(buttonIconSize)
+                    .size(24.dp)
             )
         }
     }
-}
-
-@Composable
-@Preview
-fun ProductItemPreview() {
-    ProductItem(
-        product = Product(
-            id = 1,
-            title = "Nike Air Max",
-            image = R.drawable.nike_test_image,
-            category = ProductCategory.TENNIS,
-            isFavorite = false,
-            isPopular = true,
-            price = 752.00f,
-            isInShoppingCart = false
-        ),
-        onFavoriteIconClick = {},
-        onCardClick = {},
-        onButtonClick = {}
-    )
 }
