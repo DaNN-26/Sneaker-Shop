@@ -15,4 +15,9 @@ sealed class NavDestination {
     data object Popular : NavDestination()
     @Serializable
     data class Catalogue(val category: ProductCategory) : NavDestination()
+    @Serializable
+    data class Details(
+        val productId: Int,
+        val productsIdsList: List<Int>
+    ) : NavDestination()
 }

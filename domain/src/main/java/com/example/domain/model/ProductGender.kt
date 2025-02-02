@@ -8,7 +8,7 @@ enum class ProductGender(val value: String) {
     @SerialName("Unisex")
     UNISEX("Unisex"),
     @SerialName("Men")
-    MEN("Men"),
+    MEN("Men's Shoes"),
     @SerialName("Women")
-    WOMEN("Women")
+    WOMEN("Women's Shoes")
 }

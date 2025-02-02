@@ -40,14 +40,15 @@ fun SneakersNavBar() {
     var selectedIndex by remember { mutableIntStateOf(0) }
 
     NavigationBar(
-        containerColor = Color.Unspecified,
+        containerColor = Color.Transparent,
         modifier = Modifier
             .fillMaxWidth()
             .size(375.dp, 106.dp)
     ) {
         Box(
             contentAlignment = Alignment.Center,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
         ) {
             Image(
                 painter = painterResource(R.drawable.navbar_shape),
@@ -116,7 +117,6 @@ fun SneakersNavBarPair(
     ) {
         iconPair.toList().forEachIndexed { index, item ->
             val globalIndex = pairBaseIndex + index
-
             NavigationBarItem(
                 selected = selectedIndex == globalIndex,
                 onClick = { onClick(globalIndex) },

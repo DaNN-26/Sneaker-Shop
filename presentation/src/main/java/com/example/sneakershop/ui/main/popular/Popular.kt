@@ -9,6 +9,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.example.domain.model.Product
 import com.example.sneakershop.R
 import com.example.sneakershop.ui.components.CustomLoadingIndicator
 import com.example.sneakershop.ui.components.main.ProductsGrid
@@ -18,6 +19,7 @@ import com.example.sneakershop.ui.theme.customBackgroundColor
 @Composable
 fun Popular(
     viewmodel: PopularViewmodel,
+    navigateToDetails: (Product, List<Product>) -> Unit,
     navigateBack: () -> Unit
 ) {
     val state by viewmodel.state.collectAsState()
@@ -39,7 +41,9 @@ fun Popular(
         else
             ProductsGrid(
                 productsList = state.popularProducts,
-                onCardClick = { /*TODO*/ },
+                onCardClick = { product ->
+                    navigateToDetails(product, state.popularProducts)
+                },
                 onFavoriteIconClick = { /*TODO*/ },
                 onButtonClick = { /*TODO*/ },
                 modifier = Modifier

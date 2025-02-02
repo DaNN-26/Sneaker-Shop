@@ -33,7 +33,7 @@ import com.example.sneakershop.ui.theme.newPeninimMTFontFamily
 @Composable
 fun Login(
     viewmodel: LoginViewmodel,
-    navigateToOnboarding: () -> Unit
+    navigateToHome: () -> Unit
 ) {
     val state by viewmodel.state.collectAsState()
 
@@ -77,7 +77,7 @@ fun Login(
                 onClick = {
                     try {
                         viewmodel.authorize()
-                        navigateToOnboarding()
+                        navigateToHome()
                     } catch (e: Exception) {
                         Log.d("Login", e.message.toString())
                     }

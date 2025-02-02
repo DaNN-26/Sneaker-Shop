@@ -54,7 +54,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun Onboarding(
-    navigateToHome: () -> Unit
+    navigateToLogin: () -> Unit
 ) {
 
     val slidesList by remember { mutableStateOf(SneakersDatasource.onboardingSlides) }
@@ -103,7 +103,7 @@ fun Onboarding(
                         visible = true
                     }
                 else
-                    navigateToHome()
+                    navigateToLogin()
             },
             color = customBlockColor,
             text = slidesList[pagerState.currentPage].buttonText,

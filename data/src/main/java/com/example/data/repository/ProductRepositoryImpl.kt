@@ -29,4 +29,16 @@ class ProductRepositoryImpl @Inject constructor(
                     eq("category", category)
                 }
             }.decodeList()
+
+    override suspend fun getProductById(id: Int): Product =
+        supabaseClient.from("product")
+            .select {
+                filter {
+                    eq("id", id)
+                }
+            }.decodeSingle()
+
+    override suspend fun getProductsByIds(ids: List<Int>): List<Product> {
+        return ids.map { id -> getProductById(id) }
+    }
 }

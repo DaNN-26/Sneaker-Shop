@@ -18,7 +18,7 @@ import com.example.sneakershop.ui.theme.customBackgroundColor
 @Composable
 fun ProductsGrid(
     productsList: List<Product>,
-    onCardClick: () -> Unit,
+    onCardClick: (Product) -> Unit,
     onFavoriteIconClick: () -> Unit,
     onButtonClick: () -> Unit,
     modifier: Modifier = Modifier
@@ -39,7 +39,7 @@ fun ProductsGrid(
         items(productsList) { product ->
             ProductItem(
                 product = product,
-                onCardClick = onCardClick,
+                onCardClick = { onCardClick(it) },
                 onFavoriteIconClick = onFavoriteIconClick,
                 onButtonClick = onButtonClick
             )

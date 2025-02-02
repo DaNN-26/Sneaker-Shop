@@ -14,8 +14,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.example.domain.model.Product
 import com.example.domain.model.ProductCategory
 import com.example.sneakershop.R
+import com.example.sneakershop.ui.components.CustomLoadingIndicator
 import com.example.sneakershop.ui.components.main.CategoriesRow
 import com.example.sneakershop.ui.components.main.ProductsGrid
 import com.example.sneakershop.ui.components.topbar.SneakersTopBar
@@ -25,6 +27,7 @@ import com.example.sneakershop.ui.theme.customBackgroundColor
 fun Catalogue(
     viewmodel: CatalogueViewmodel,
     category: ProductCategory,
+    navigateToDetails: (Product, List<Product>) -> Unit,
     navigateBack: () -> Unit
 ) {
     val state by viewmodel.state.collectAsState()
@@ -36,7 +39,7 @@ fun Catalogue(
     Scaffold(
         topBar = {
             SneakersTopBar(
-                title = state.currentCategory?.value ?: "Категория не выбрана",
+                title = state.currentCategory?.value ?: "",
                 navIcon = painterResource(R.drawable.back),
                 actionsIcon = painterResource(R.drawable.favorite),
                 onNavIconClick = navigateBack,
@@ -45,26 +48,34 @@ fun Catalogue(
             )
         }
     ) { contentPadding ->
-        Column(
-            modifier = Modifier
-                .background(customBackgroundColor)
-                .fillMaxSize()
-                .padding(contentPadding)
-        ) {
-            CategoriesRow(
-                categoriesList = state.categories,
-                onCategoryCardClick = { category ->
-                    viewmodel.setCategory(category) 
-                },
-                selectedCategory = state.currentCategory,
-                modifier = Modifier.padding(start = 20.dp)
+        if(state.products.isEmpty())
+            CustomLoadingIndicator(
+                modifier = Modifier.padding(contentPadding)
             )
-            Spacer(modifier = Modifier.height(20.dp))
-            ProductsGrid(
-                productsList = state.products,
-                onCardClick = { /*TODO*/ },
-                onFavoriteIconClick = { /*TODO*/ },
-                onButtonClick = { /*TODO*/ })
+        else
+            Column(
+                modifier = Modifier
+                    .background(customBackgroundColor)
+                    .fillMaxSize()
+                    .padding(contentPadding)
+            ) {
+                CategoriesRow(
+                    categoriesList = state.categories,
+                    onCategoryCardClick = { category ->
+                        viewmodel.setCategory(category)
+                    },
+                    selectedCategory = state.currentCategory,
+                    modifier = Modifier.padding(start = 20.dp)
+                )
+                Spacer(modifier = Modifier.height(20.dp))
+                ProductsGrid(
+                    productsList = state.products,
+                    onCardClick = { product ->
+                        navigateToDetails(product, state.products)
+                    },
+                    onFavoriteIconClick = { /*TODO*/ },
+                    onButtonClick = { /*TODO*/ }
+                )
         }
     }
 }

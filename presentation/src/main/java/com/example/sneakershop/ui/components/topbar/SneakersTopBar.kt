@@ -31,6 +31,7 @@ import com.example.sneakershop.ui.theme.newPeninimMTFontFamily
 fun SneakersTopBar(
     title: String,
     isHome: Boolean = false,
+    isDetails: Boolean = false,
     navIcon: Painter,
     actionsIcon: Painter,
     onNavIconClick: () -> Unit = {},
@@ -74,7 +75,7 @@ fun SneakersTopBar(
         },
         actions = {
             if(hasActionIcon) {
-                if (isHome)
+                if (isHome || isDetails)
                     Icon(
                         painter = actionsIcon,
                         contentDescription = null,

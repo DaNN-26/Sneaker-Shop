@@ -49,7 +49,8 @@ import com.example.sneakershop.ui.theme.newPeninimMTFontFamily
 fun Home(
     viewmodel: HomeViewmodel,
     navigateToCatalogue: (ProductCategory) -> Unit,
-    navigateToPopular: () -> Unit
+    navigateToPopular: () -> Unit,
+    navigateToDetails: (Product, List<Product>) -> Unit
 ) {
     val state by viewmodel.state.collectAsState()
 
@@ -70,7 +71,7 @@ fun Home(
             modifier = Modifier
                 .background(customBackgroundColor)
                 .fillMaxSize()
-                .padding(contentPadding)
+                .padding(top = contentPadding.calculateTopPadding())
                 .padding(top = 5.dp, start = 20.dp)
                 .verticalScroll(rememberScrollState())
         ) {
@@ -88,7 +89,9 @@ fun Home(
             HomePopularProducts(
                 productsList = state.popularProducts,
                 onAllButtonClick = navigateToPopular,
-                onCardClick = { /*TODO*/ },
+                onCardClick = { product ->
+                    navigateToDetails(product, state.popularProducts)
+                },
                 onFavoriteIconClick = { /*TODO*/ },
                 onButtonClick = { /*TODO*/ }
             )
@@ -136,7 +139,7 @@ fun HomeSearchBar(
 fun HomePopularProducts(
     productsList: List<Product>,
     onAllButtonClick: () -> Unit,
-    onCardClick: () -> Unit,
+    onCardClick: (Product) -> Unit,
     onFavoriteIconClick: () -> Unit,
     onButtonClick: () -> Unit
 ) {
@@ -175,7 +178,7 @@ fun HomePopularProducts(
                 if(product.isPopular)
                 ProductItem(
                     product = product,
-                    onCardClick = onCardClick,
+                    onCardClick = { onCardClick(it) },
                     onFavoriteIconClick = onFavoriteIconClick,
                     onButtonClick = onButtonClick,
                     modifier = Modifier.weight(1f)

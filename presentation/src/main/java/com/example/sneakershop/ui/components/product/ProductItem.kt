@@ -44,13 +44,13 @@ import com.example.sneakershop.ui.theme.ralewayFontFamily
 @Composable
 fun ProductItem(
     product: Product,
-    onCardClick: () -> Unit,
+    onCardClick: (Product) -> Unit,
     onFavoriteIconClick: () -> Unit,
     onButtonClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Card(
-        onClick = onCardClick,
+        onClick = { onCardClick(product) },
         colors = CardDefaults.cardColors(
             containerColor = customBlockColor
         ),
