@@ -28,7 +28,7 @@ class CatalogueViewmodel @Inject constructor(
                 else
                     productRepository.getAllProducts()
 
-                    _state.update { it.copy(products = products) }
+                _state.update { it.copy(products = products) }
             } catch (e: Exception) {
                 Log.d("CatalogueViewmodel", e.message.toString())
             }

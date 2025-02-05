@@ -41,7 +41,6 @@ fun Catalogue(
             SneakersTopBar(
                 title = state.currentCategory?.value ?: "",
                 navIcon = painterResource(R.drawable.back),
-                actionsIcon = painterResource(R.drawable.favorite),
                 onNavIconClick = navigateBack,
                 hasActionIcon = false,
                 backgroundIconColor = customBackgroundColor

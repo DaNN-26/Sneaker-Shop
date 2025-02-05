@@ -6,9 +6,11 @@ import kotlinx.serialization.Serializable
 @Serializable
 sealed class NavDestination {
     @Serializable
+    data object Onboarding : NavDestination()
+    @Serializable
     data object Login : NavDestination()
     @Serializable
-    data object Onboarding : NavDestination()
+    data object Register : NavDestination()
     @Serializable
     data object Home : NavDestination()
     @Serializable

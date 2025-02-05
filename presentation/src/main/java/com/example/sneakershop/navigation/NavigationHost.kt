@@ -9,6 +9,8 @@ import androidx.navigation.toRoute
 import com.example.sneakershop.ui.auth.login.Login
 import com.example.sneakershop.ui.auth.login.LoginViewmodel
 import com.example.sneakershop.ui.auth.onboarding.Onboarding
+import com.example.sneakershop.ui.auth.register.Register
+import com.example.sneakershop.ui.auth.register.RegisterViewmodel
 import com.example.sneakershop.ui.main.catalogue.Catalogue
 import com.example.sneakershop.ui.main.catalogue.CatalogueViewmodel
 import com.example.sneakershop.ui.main.details.Details
@@ -23,13 +25,13 @@ fun NavigationHost() {
     val navController = rememberNavController()
     NavHost(
         navController = navController,
-        startDestination = NavDestination.Home
+        startDestination = NavDestination.Onboarding
     ) {
         composable<NavDestination.Onboarding> {
             Onboarding(
                 navigateToLogin = {
                     navController.navigate(NavDestination.Login) {
-                        popUpTo(NavDestination.Onboarding) {
+                        popUpTo<NavDestination.Onboarding> {
                             inclusive = true
                         }
                     }
@@ -37,16 +39,31 @@ fun NavigationHost() {
             )
         }
         composable<NavDestination.Login> {
-            val viewmodel = LoginViewmodel()
+            val viewmodel = hiltViewModel<LoginViewmodel>()
             Login(
                 viewmodel = viewmodel,
                 navigateToHome = {
                     navController.navigate(NavDestination.Home) {
-                        popUpTo(NavDestination.Login) {
+                        popUpTo<NavDestination.Login> {
                             inclusive = true
                         }
                     }
-                }
+                },
+                navigateToRegister = { navController.navigate(NavDestination.Register) }
+            )
+        }
+        composable<NavDestination.Register> {
+            val viewmodel = hiltViewModel<RegisterViewmodel>()
+            Register(
+                viewmodel = viewmodel,
+                navigateToHome = {
+                    navController.navigate(NavDestination.Home) {
+                        popUpTo<NavDestination.Register> {
+                            inclusive = true
+                        }
+                    }
+                },
+                navigateBack = { navController.popBackStack() }
             )
         }
         composable<NavDestination.Home> {

@@ -15,7 +15,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -51,12 +51,14 @@ fun CustomTextField(
         value = value,
         onValueChange = { onValueChange(it) },
         singleLine = true,
-        placeholder = { Text(
-            text = placeholderText,
-            fontSize = 14.sp,
-            fontFamily = newPeninimMTFontFamily,
-            color = customHintColor
-        ) },
+        placeholder = {
+            Text(
+                text = placeholderText,
+                fontSize = 14.sp,
+                fontFamily = newPeninimMTFontFamily,
+                color = customHintColor
+            )
+        },
         isError = isError,
         colors = TextFieldDefaults.colors(
             unfocusedContainerColor = customBackgroundColor,
@@ -64,7 +66,7 @@ fun CustomTextField(
             disabledContainerColor = customBackgroundColor,
             errorContainerColor = customBackgroundColor,
             unfocusedIndicatorColor = customBackgroundColor,
-            errorIndicatorColor = customBackgroundColor,
+            errorIndicatorColor = customRedColor,
             focusedIndicatorColor = customBackgroundColor,
             disabledIndicatorColor = customBackgroundColor,
             cursorColor = customTextColor,
@@ -74,10 +76,7 @@ fun CustomTextField(
             keyboardType = keyboardType,
             imeAction = imeAction
         ),
-        modifier = Modifier
-            .fillMaxWidth()
-            .shadow(1.dp, RoundedCornerShape(16.dp)),
-
+        modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(12.dp)),
         visualTransformation = if(isPassword && !isPasswordVisible)
             PasswordVisualTransformation()
         else

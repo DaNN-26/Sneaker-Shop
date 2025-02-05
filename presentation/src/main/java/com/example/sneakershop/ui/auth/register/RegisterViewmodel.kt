@@ -1,4 +1,4 @@
-package com.example.sneakershop.ui.auth.login
+package com.example.sneakershop.ui.auth.register
 
 import androidx.lifecycle.ViewModel
 import com.example.domain.repository.AuthRepository
@@ -9,41 +9,50 @@ import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginViewmodel @Inject constructor(
+class RegisterViewmodel @Inject constructor(
     private val authRepository: AuthRepository
 ) : ViewModel() {
-    private val _state = MutableStateFlow(LoginState())
+    private val _state = MutableStateFlow(RegisterState())
     val state = _state.asStateFlow()
 
-    fun updateEmail(email: String) {
+    fun onUsernameChange(username: String) {
+        _state.update { it.copy(username = username) }
+    }
+
+    fun onEmailChange(email: String) {
         _state.update { it.copy(email = email) }
     }
 
-    fun updatePassword(password: String) {
+    fun onPasswordChange(password: String) {
         _state.update { it.copy(password = password) }
     }
 
-    suspend fun login() {
+    suspend fun createAccount() {
         checkInputData()
         try {
-            authRepository.login(
+            authRepository.createAccount(
+                username = state.value.username,
                 email = state.value.email,
                 password = state.value.password
             )
         } catch (e: Exception) {
-            _state.update { it.copy(isIncorrectData = true) }
+            _state.update { it.copy(isRegisteredEmail = true) }
             throw e
         }
     }
 
     private fun checkInputData() {
-        if(state.value.email.isEmpty() || state.value.password.isEmpty()) {
+        if(state.value.email.isEmpty() || state.value.password.isEmpty() || state.value.username.isEmpty()) {
             _state.update { it.copy(isEmptyValues = true) }
             throw Exception("Empty values")
         }
         if(!state.value.email.isEmailFormat()) {
             _state.update { it.copy(isIncorrectEmail = true) }
             throw Exception("Invalid email")
+        }
+        if(state.value.password.length < 6) {
+            _state.update { it.copy(isPasswordIsTooSmall = true) }
+            throw Exception("Password is too small")
         }
     }
 
@@ -53,10 +62,13 @@ class LoginViewmodel @Inject constructor(
     }
 
     fun dismissDialog() {
-        _state.update { it.copy(
-            isIncorrectEmail = false,
-            isEmptyValues = false,
-            isIncorrectData = false
-        ) }
+        _state.update {
+            it.copy(
+                isIncorrectEmail = false,
+                isEmptyValues = false,
+                isRegisteredEmail = false,
+                isPasswordIsTooSmall = false
+            )
+        }
     }
 }

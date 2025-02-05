@@ -15,36 +15,57 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.sneakershop.R
 import com.example.sneakershop.ui.components.CustomButton
+import com.example.sneakershop.ui.components.CustomDialogueBox
 import com.example.sneakershop.ui.components.CustomTextField
 import com.example.sneakershop.ui.theme.customAccentColor
 import com.example.sneakershop.ui.theme.customBackgroundColor
+import com.example.sneakershop.ui.theme.customBlockColor
 import com.example.sneakershop.ui.theme.customSubTextDarkColor
 import com.example.sneakershop.ui.theme.customTextColor
 import com.example.sneakershop.ui.theme.newPeninimMTFontFamily
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @Composable
 fun Login(
     viewmodel: LoginViewmodel,
-    navigateToHome: () -> Unit
+    navigateToHome: () -> Unit,
+    navigateToRegister: () -> Unit
 ) {
     val state by viewmodel.state.collectAsState()
+    val scope = rememberCoroutineScope()
 
     Surface(
         modifier = Modifier.fillMaxSize()
     ) {
+        if(state.isIncorrectEmail || state.isEmptyValues || state.isIncorrectData)
+            CustomDialogueBox(
+                onDismissRequest = viewmodel::dismissDialog,
+                title = if (state.isIncorrectEmail) "Некорректный email"
+                else if (state.isEmptyValues) "Пустые поля"
+                else "Некорректные данные",
+                text = if (state.isIncorrectEmail) "Электронная почта должна соответствовать формату."
+                else if (state.isEmptyValues) "Вы оставили пустые поля, проверьте данные ещё раз."
+                else "Электронная почта или пароль не соответствуют ни одному аккаунту.",
+                icon = if(state.isIncorrectEmail) R.drawable.email else 0
+            )
         Column(
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
-                .background(customBackgroundColor)
+                .blur(if (state.isIncorrectEmail || state.isEmptyValues || state.isIncorrectData) 3.dp else 0.dp)
+                .background(customBlockColor)
                 .padding(horizontal = 20.dp)
         ) {
             Spacer(modifier = Modifier.height(121.dp))
@@ -68,18 +89,18 @@ fun Login(
                 onEmailChange = { viewmodel.updateEmail(it) },
                 password = state.password,
                 onPasswordChange = { viewmodel.updatePassword(it) },
-                onRecoverButtonClick = { /*TODO*/ },
-                isError = state.isError,
-                emailErrorText = state.emailErrorText
+                onRecoverButtonClick = { /*TODO*/ }
             )
             Spacer(modifier = Modifier.height(10.dp))
             CustomButton(
                 onClick = {
-                    try {
-                        viewmodel.authorize()
-                        navigateToHome()
-                    } catch (e: Exception) {
-                        Log.d("Login", e.message.toString())
+                    scope.launch(Dispatchers.Main) {
+                        try {
+                            viewmodel.login()
+                            navigateToHome()
+                        } catch (e: Exception) {
+                            Log.d("Login", e.message.toString())
+                        }
                     }
                 },
                 color = customAccentColor,
@@ -88,7 +109,7 @@ fun Login(
             )
         }
         CreateAccountButton(
-            onCreateAccountButtonClick = { /*TODO*/ }
+            onCreateAccountButtonClick = navigateToRegister
         )
     }
 }
@@ -99,9 +120,7 @@ fun LoginInputForm(
     onEmailChange: (String) -> Unit,
     password: String,
     onPasswordChange: (String) -> Unit,
-    onRecoverButtonClick: () -> Unit,
-    isError: Boolean,
-    emailErrorText: String
+    onRecoverButtonClick: () -> Unit
 ) {
     Column {
         Text(
@@ -115,8 +134,7 @@ fun LoginInputForm(
         CustomTextField(
             value = email,
             onValueChange = { onEmailChange(it) },
-            placeholderText = if(!isError) "xyz@gmail.com" else emailErrorText,
-            isError = isError,
+            placeholderText = "xyz@gmail.com",
             keyboardType = KeyboardType.Email,
             imeAction = ImeAction.Next
         )
@@ -133,7 +151,6 @@ fun LoginInputForm(
             value = password,
             onValueChange = { onPasswordChange(it) },
             placeholderText = "••••••••",
-            isError = isError,
             isPassword = true,
             keyboardType = KeyboardType.Password,
             imeAction = ImeAction.Done

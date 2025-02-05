@@ -29,11 +29,12 @@ import com.example.sneakershop.ui.theme.newPeninimMTFontFamily
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SneakersTopBar(
+    modifier: Modifier = Modifier,
     title: String,
     isHome: Boolean = false,
     isDetails: Boolean = false,
     navIcon: Painter,
-    actionsIcon: Painter,
+    actionsIcon: Painter = painterResource(id = R.drawable.favorite),
     onNavIconClick: () -> Unit = {},
     onActionsIconClick: () -> Unit = {},
     hasActionIcon: Boolean = true,
@@ -95,7 +96,8 @@ fun SneakersTopBar(
                             .size(44.dp)
                     )
             }
-        }
+        },
+        modifier = modifier
     )
 }
 
