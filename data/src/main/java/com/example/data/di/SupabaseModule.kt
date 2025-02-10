@@ -1,8 +1,12 @@
 package com.example.data.di
 
 import com.example.data.repository.AuthRepositoryImpl
+import com.example.data.repository.CartRepositoryImpl
+import com.example.data.repository.FavoritesRepositoryImpl
 import com.example.data.repository.ProductRepositoryImpl
 import com.example.domain.repository.AuthRepository
+import com.example.domain.repository.CartRepository
+import com.example.domain.repository.FavoritesRepository
 import com.example.domain.repository.ProductRepository
 import dagger.Module
 import dagger.Provides
@@ -38,4 +42,14 @@ object SupabaseModule {
     @Singleton
     fun provideAuthRepository(client: SupabaseClient): AuthRepository =
         AuthRepositoryImpl(client.auth)
+
+    @Provides
+    @Singleton
+    fun provideFavoritesRepository(client: SupabaseClient): FavoritesRepository =
+        FavoritesRepositoryImpl(client)
+
+    @Provides
+    @Singleton
+    fun provideCartRepository(client: SupabaseClient): CartRepository =
+        CartRepositoryImpl(client)
 }

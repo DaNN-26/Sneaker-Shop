@@ -32,8 +32,13 @@ fun Catalogue(
 ) {
     val state by viewmodel.state.collectAsState()
 
-    LaunchedEffect(Unit) {
-        viewmodel.setCategory(category)
+    if(state.currentCategory == null)
+        LaunchedEffect(Unit) {
+            viewmodel.setCategory(category)
+        }
+
+    LaunchedEffect(state.currentCategory) {
+        viewmodel.getProductsByCategory()
     }
 
     Scaffold(
@@ -47,11 +52,6 @@ fun Catalogue(
             )
         }
     ) { contentPadding ->
-        if(state.products.isEmpty())
-            CustomLoadingIndicator(
-                modifier = Modifier.padding(contentPadding)
-            )
-        else
             Column(
                 modifier = Modifier
                     .background(customBackgroundColor)
@@ -67,14 +67,19 @@ fun Catalogue(
                     modifier = Modifier.padding(start = 20.dp)
                 )
                 Spacer(modifier = Modifier.height(20.dp))
-                ProductsGrid(
-                    productsList = state.products,
-                    onCardClick = { product ->
-                        navigateToDetails(product, state.products)
-                    },
-                    onFavoriteIconClick = { /*TODO*/ },
-                    onButtonClick = { /*TODO*/ }
-                )
+                if(state.products.isEmpty())
+                    CustomLoadingIndicator()
+                else
+                    ProductsGrid(
+                        productsList = state.products,
+                        favoriteProductsIds = state.favoriteProductsIds,
+                        cartProductsIds = state.cartProductsIds,
+                        onCardClick = { product ->
+                            navigateToDetails(product, state.products)
+                        },
+                        onFavoriteIconClick = { viewmodel.toggleFavorite(it) },
+                        onButtonClick = { viewmodel.toggleCart(it) }
+                    )
         }
     }
 }

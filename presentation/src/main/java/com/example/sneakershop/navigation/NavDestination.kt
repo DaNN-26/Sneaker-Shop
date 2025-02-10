@@ -22,4 +22,8 @@ sealed class NavDestination {
         val productId: Int,
         val productsIdsList: List<Int>
     ) : NavDestination()
+    @Serializable
+    data object Favorites : NavDestination()
+    @Serializable
+    data object Search : NavDestination()
 }

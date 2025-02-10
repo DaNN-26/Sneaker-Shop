@@ -15,10 +15,14 @@ import com.example.sneakershop.ui.main.catalogue.Catalogue
 import com.example.sneakershop.ui.main.catalogue.CatalogueViewmodel
 import com.example.sneakershop.ui.main.details.Details
 import com.example.sneakershop.ui.main.details.DetailsViewmodel
+import com.example.sneakershop.ui.main.favorites.Favorites
+import com.example.sneakershop.ui.main.favorites.FavoritesViewmodel
 import com.example.sneakershop.ui.main.home.Home
 import com.example.sneakershop.ui.main.home.HomeViewmodel
 import com.example.sneakershop.ui.main.popular.Popular
 import com.example.sneakershop.ui.main.popular.PopularViewmodel
+import com.example.sneakershop.ui.main.search.Search
+import com.example.sneakershop.ui.main.search.SearchViewmodel
 
 @Composable
 fun NavigationHost() {
@@ -79,6 +83,15 @@ fun NavigationHost() {
                         productId = product.id,
                         productsIdsList = productsList.map { it.id }
                     ))
+                },
+                navigateToSearch = { navController.navigate(NavDestination.Search) },
+                navigateToScreen = { index ->
+                    when (index) {
+                        0 -> navController.navigate(NavDestination.Home)
+                        1 -> navController.navigate(NavDestination.Favorites)
+                        2 -> { /*TODO*/ }
+                        3 -> { /*TODO*/ }
+                    }
                 }
             )
         }
@@ -117,6 +130,40 @@ fun NavigationHost() {
                 viewmodel = viewmodel,
                 productId = details.productId,
                 productsIdsList = details.productsIdsList,
+                navigateBack = { navController.popBackStack() }
+            )
+        }
+        composable<NavDestination.Favorites> {
+            val viewmodel = hiltViewModel<FavoritesViewmodel>()
+            Favorites(
+                viewmodel = viewmodel,
+                navigateToDetails = { product, productsList ->
+                    navController.navigate(NavDestination.Details(
+                        productId = product.id,
+                        productsIdsList = productsList.map { it.id }
+                    ))
+                },
+                navigateBack = { navController.popBackStack() },
+                navigateToScreen = { index ->
+                    when (index) {
+                        0 -> navController.navigate(NavDestination.Home)
+                        1 -> navController.navigate(NavDestination.Favorites)
+                        2 -> { /*TODO*/ }
+                        3 -> { /*TODO*/ }
+                    }
+                }
+            )
+        }
+        composable<NavDestination.Search> {
+            val viewmodel = hiltViewModel<SearchViewmodel>()
+            Search(
+                viewmodel = viewmodel,
+                navigateToDetails = { product, productsList ->
+                    navController.navigate(NavDestination.Details(
+                        productId = product.id,
+                        productsIdsList = productsList.map { it.id }
+                    ))
+                },
                 navigateBack = { navController.popBackStack() }
             )
         }

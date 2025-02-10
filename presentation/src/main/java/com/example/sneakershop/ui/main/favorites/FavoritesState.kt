@@ -1,9 +1,9 @@
-package com.example.sneakershop.ui.main.popular
+package com.example.sneakershop.ui.main.favorites
 
 import com.example.domain.model.Product
 
-data class PopularState(
-    val popularProducts: List<Product> = emptyList(),
+data class FavoritesState(
+    val favorites: List<Product> = emptyList(),
     val favoriteProductsIds: Set<Int> = emptySet(),
     val cartProductsIds: Set<Int> = emptySet()
 )

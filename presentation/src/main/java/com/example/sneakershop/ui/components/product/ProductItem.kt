@@ -36,6 +36,7 @@ import com.example.sneakershop.ui.theme.customAccentColor
 import com.example.sneakershop.ui.theme.customBackgroundColor
 import com.example.sneakershop.ui.theme.customBlockColor
 import com.example.sneakershop.ui.theme.customHintColor
+import com.example.sneakershop.ui.theme.customRedColor
 import com.example.sneakershop.ui.theme.customTextColor
 import com.example.sneakershop.ui.theme.poppinsFontFamily
 import com.example.sneakershop.ui.theme.ralewayFontFamily
@@ -44,13 +45,15 @@ import com.example.sneakershop.ui.theme.ralewayFontFamily
 @Composable
 fun ProductItem(
     product: Product,
-    onCardClick: (Product) -> Unit,
+    isFavorite: Boolean,
+    isInCart: Boolean,
+    onCardClick: () -> Unit,
     onFavoriteIconClick: () -> Unit,
     onButtonClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Card(
-        onClick = { onCardClick(product) },
+        onClick = onCardClick,
         colors = CardDefaults.cardColors(
             containerColor = customBlockColor
         ),
@@ -64,7 +67,7 @@ fun ProductItem(
             ProductImage(
                 image = product.image,
                 onFavoriteIconClick = onFavoriteIconClick,
-                //isFavorite = product.isFavorite
+                isFavorite = isFavorite
             )
             Spacer(modifier = Modifier.height(12.dp))
             Text(
@@ -88,7 +91,7 @@ fun ProductItem(
                 price = String
                     .format("%.2f", product.price)
                     .replace(",", "."),
-                //isInShoppingCart = product.isInShoppingCart,
+                isInCart = isInCart,
                 onButtonClick = onButtonClick
             )
         }
@@ -98,18 +101,11 @@ fun ProductItem(
 @Composable
 fun ProductImage(
     image: String,
-    //isFavorite: Boolean,
+    isFavorite: Boolean,
     onFavoriteIconClick: () -> Unit
 ) {
-//    val favoriteIcon = if(isFavorite)
-//        R.drawable.favorite_fill
-//    else
-//        R.drawable.favorite
-//
-//    val favoriteIconTint = if(isFavorite)
-//        customRedColor
-//    else
-//        customTextColor
+    val favoriteIcon = if(isFavorite) R.drawable.favorite_fill else R.drawable.favorite
+    val favoriteIconTint = if(isFavorite) customRedColor else customTextColor
 
     Box(
         modifier = Modifier.fillMaxWidth()
@@ -124,9 +120,9 @@ fun ProductImage(
                 onClick = onFavoriteIconClick
             ) {
                 Icon(
-                    painter = painterResource(id = R.drawable.favorite),
+                    painter = painterResource(id = favoriteIcon),
                     contentDescription = null,
-                    tint = customTextColor,
+                    tint = favoriteIconTint,
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(5.dp)
@@ -147,18 +143,11 @@ fun ProductImage(
 @Composable
 fun ProductPrice(
     price: String,
-    //isInShoppingCart: Boolean,
+    isInCart: Boolean,
     onButtonClick: () -> Unit
 ) {
-//    val buttonIcon = if(isInShoppingCart)
-//        R.drawable.cart
-//    else
-//        R.drawable.add
-//
-//    val buttonIconSize = if(isInShoppingCart)
-//        12.dp
-//    else
-//        24.dp
+    val buttonIcon = if(isInCart) R.drawable.cart else R.drawable.add
+    val buttonIconSize = if(isInCart) 12.dp else 24.dp
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -182,12 +171,12 @@ fun ProductPrice(
                 .clickable { onButtonClick() }
         ) {
             Icon(
-                painter = painterResource(id = R.drawable.add),
+                painter = painterResource(id = buttonIcon),
                 contentDescription = null,
                 tint = customBlockColor,
                 modifier = Modifier
                     .padding(start = 2.dp)
-                    .size(24.dp)
+                    .size(buttonIconSize)
             )
         }
     }

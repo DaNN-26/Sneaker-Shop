@@ -18,9 +18,11 @@ import com.example.sneakershop.ui.theme.customBackgroundColor
 @Composable
 fun ProductsGrid(
     productsList: List<Product>,
+    favoriteProductsIds: Set<Int>,
+    cartProductsIds: Set<Int>,
     onCardClick: (Product) -> Unit,
-    onFavoriteIconClick: () -> Unit,
-    onButtonClick: () -> Unit,
+    onFavoriteIconClick: (Product) -> Unit,
+    onButtonClick: (Product) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyVerticalGrid(
@@ -39,9 +41,11 @@ fun ProductsGrid(
         items(productsList) { product ->
             ProductItem(
                 product = product,
-                onCardClick = { onCardClick(it) },
-                onFavoriteIconClick = onFavoriteIconClick,
-                onButtonClick = onButtonClick
+                isFavorite = favoriteProductsIds.contains(product.id),
+                isInCart = cartProductsIds.contains(product.id),
+                onCardClick = { onCardClick(product) },
+                onFavoriteIconClick = { onFavoriteIconClick(product) },
+                onButtonClick = { onButtonClick(product) }
             )
         }
     }

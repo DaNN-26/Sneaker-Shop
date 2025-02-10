@@ -61,6 +61,7 @@ import com.example.sneakershop.ui.theme.customAccentColor
 import com.example.sneakershop.ui.theme.customBackgroundColor
 import com.example.sneakershop.ui.theme.customBlockColor
 import com.example.sneakershop.ui.theme.customHintColor
+import com.example.sneakershop.ui.theme.customRedColor
 import com.example.sneakershop.ui.theme.customSubTextLightColor
 import com.example.sneakershop.ui.theme.customTextColor
 import com.example.sneakershop.ui.theme.newPeninimMTFontFamily
@@ -91,10 +92,13 @@ fun Details(
             )
         },
         bottomBar = {
-            DetailsButtons(
-                onFavoriteClick = { /*TODO*/ },
-                onMainButtonClick = { /*TODO*/ }
-            )
+            if(state.currentProduct != null)
+                DetailsButtons(
+                    onFavoriteClick = { viewmodel.toggleFavorite(state.currentProduct!!) },
+                    onMainButtonClick = { viewmodel.toggleCart(state.currentProduct!!) },
+                    isFavorite = state.favoriteProductsIds.contains(state.currentProduct!!.id),
+                    isInCart = state.cartProductsIds.contains(state.currentProduct!!.id)
+                )
         }
     ) { contentPadding ->
         if(state.currentProduct == null && state.products.isEmpty())
@@ -312,8 +316,15 @@ fun DetailsDescription(
 fun DetailsButtons(
     modifier: Modifier = Modifier,
     onFavoriteClick: () -> Unit,
-    onMainButtonClick: () -> Unit
+    onMainButtonClick: () -> Unit,
+    isFavorite: Boolean,
+    isInCart: Boolean
 ) {
+    val favoriteIcon = if (isFavorite) R.drawable.favorite_fill else R.drawable.favorite
+    val favoriteIconTint = if (isFavorite) customRedColor else Color.Unspecified
+
+    val buttonText = if (isInCart) "Добавлено" else "В корзину"
+
     Row(
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically,
@@ -330,8 +341,9 @@ fun DetailsButtons(
             modifier = Modifier.size(50.dp)
         ) {
             Icon(
-                painter = painterResource(id = R.drawable.favorite),
-                contentDescription = null
+                painter = painterResource(id = favoriteIcon),
+                contentDescription = null,
+                tint = favoriteIconTint
             )
         }
         Spacer(modifier = Modifier.width(18.dp))
@@ -339,7 +351,7 @@ fun DetailsButtons(
             icon = R.drawable.bag,
             onClick = onMainButtonClick,
             color = customAccentColor,
-            text = "В корзину",
+            text = buttonText,
             textColor = customBlockColor
         )
     }

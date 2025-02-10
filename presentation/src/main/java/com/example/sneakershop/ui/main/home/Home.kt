@@ -20,6 +20,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -50,9 +51,15 @@ fun Home(
     viewmodel: HomeViewmodel,
     navigateToCatalogue: (ProductCategory) -> Unit,
     navigateToPopular: () -> Unit,
-    navigateToDetails: (Product, List<Product>) -> Unit
+    navigateToDetails: (Product, List<Product>) -> Unit,
+    navigateToSearch: () -> Unit,
+    navigateToScreen: (Int) -> Unit
 ) {
     val state by viewmodel.state.collectAsState()
+
+    LaunchedEffect(Unit) {
+        viewmodel.getFavoriteAndCartProductsIds()
+    }
 
     Scaffold(
         topBar = {
@@ -64,7 +71,9 @@ fun Home(
             )
         },
         bottomBar = {
-            SneakersNavBar()
+            SneakersNavBar(
+                navigateToScreen = { navigateToScreen(it) }
+            )
         }
     ) { contentPadding ->
         Column(
@@ -76,7 +85,8 @@ fun Home(
                 .verticalScroll(rememberScrollState())
         ) {
             HomeSearchBar(
-                onFiltersButtonClick = { /*TODO*/ }
+                onFiltersButtonClick = { /*TODO*/ },
+                onSearchFieldClick = navigateToSearch
             )
             Spacer(modifier = Modifier.height(10.dp))
             CategoriesRow(
@@ -88,12 +98,14 @@ fun Home(
             Spacer(modifier = Modifier.height(24.dp))
             HomePopularProducts(
                 productsList = state.popularProducts,
+                favoriteProductsIds = state.favoriteProductsIds,
+                cartProductsIds = state.cartProductsIds,
                 onAllButtonClick = navigateToPopular,
                 onCardClick = { product ->
                     navigateToDetails(product, state.popularProducts)
                 },
-                onFavoriteIconClick = { /*TODO*/ },
-                onButtonClick = { /*TODO*/ }
+                onFavoriteIconClick = { viewmodel.toggleFavorite(it) },
+                onButtonClick = { viewmodel.toggleCart(it) }
             )
             Spacer(modifier = Modifier.height(29.dp))
             HomeDiscounts(
@@ -106,7 +118,8 @@ fun Home(
 
 @Composable
 fun HomeSearchBar(
-    onFiltersButtonClick: () -> Unit
+    onFiltersButtonClick: () -> Unit,
+    onSearchFieldClick: () -> Unit
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -121,6 +134,7 @@ fun HomeSearchBar(
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(2f)
+                .clickable { onSearchFieldClick() }
         )
         Icon(
             painter = painterResource(R.drawable.filters),
@@ -138,10 +152,12 @@ fun HomeSearchBar(
 @Composable
 fun HomePopularProducts(
     productsList: List<Product>,
+    favoriteProductsIds: Set<Int>,
+    cartProductsIds: Set<Int>,
     onAllButtonClick: () -> Unit,
     onCardClick: (Product) -> Unit,
-    onFavoriteIconClick: () -> Unit,
-    onButtonClick: () -> Unit
+    onFavoriteIconClick: (Product) -> Unit,
+    onButtonClick: (Product) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -178,9 +194,11 @@ fun HomePopularProducts(
                 if(product.isPopular)
                 ProductItem(
                     product = product,
-                    onCardClick = { onCardClick(it) },
-                    onFavoriteIconClick = onFavoriteIconClick,
-                    onButtonClick = onButtonClick,
+                    isFavorite = favoriteProductsIds.contains(product.id),
+                    isInCart = cartProductsIds.contains(product.id),
+                    onCardClick = { onCardClick(product) },
+                    onFavoriteIconClick = { onFavoriteIconClick(product) },
+                    onButtonClick = { onButtonClick(product) },
                     modifier = Modifier.weight(1f)
                 )
             }

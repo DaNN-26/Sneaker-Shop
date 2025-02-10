@@ -1,30 +1,42 @@
 package com.example.sneakershop.ui.components
 
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sneakershop.R
 import com.example.sneakershop.ui.theme.customBlockColor
 import com.example.sneakershop.ui.theme.customHintColor
+import com.example.sneakershop.ui.theme.customSubTextDarkColor
 import com.example.sneakershop.ui.theme.newPeninimMTFontFamily
 
 @Composable
 fun SearchField(
+    onDoneClick: () -> Unit = {},
     value: String,
     onValueChange: (String) -> Unit,
     enabled: Boolean = true,
+    hasMicrophoneIcon: Boolean = false,
     modifier: Modifier = Modifier
 ) {
     TextField(
@@ -60,6 +72,34 @@ fun SearchField(
                 tint = customHintColor,
                 modifier = Modifier.padding(start = 26.dp)
             )
-        }
+        },
+        trailingIcon = {
+            if(hasMicrophoneIcon)
+                Row(
+                    horizontalArrangement = Arrangement.End
+                ) {
+                    VerticalDivider(
+                        color = customSubTextDarkColor,
+                        modifier = Modifier
+                            .size(24.dp)
+                            .wrapContentWidth(Alignment.End)
+                    )
+                    Spacer(modifier = Modifier.width(6.dp))
+                    Icon(
+                        painter = painterResource(id = R.drawable.microphone),
+                        contentDescription = null,
+                        tint = customSubTextDarkColor,
+                        modifier = Modifier
+                            .padding(end = 14.dp)
+                            .size(26.dp, 24.dp)
+                    )
+                }
+        },
+        keyboardOptions = KeyboardOptions(
+            imeAction = ImeAction.Done
+        ),
+        keyboardActions = KeyboardActions(
+            onDone = { onDoneClick() },
+        )
     )
 }

@@ -9,5 +9,7 @@ data class HomeState(
         Product(),
         Product()
     ),
+    val favoriteProductsIds: Set<Int> = emptySet(),
+    val cartProductsIds: Set<Int> = emptySet(),
     val categories: List<ProductCategory> = SneakersDatasource.categories
 )

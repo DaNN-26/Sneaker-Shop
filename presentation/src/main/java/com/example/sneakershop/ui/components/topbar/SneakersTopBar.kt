@@ -35,10 +35,13 @@ fun SneakersTopBar(
     isDetails: Boolean = false,
     navIcon: Painter,
     actionsIcon: Painter = painterResource(id = R.drawable.favorite),
+    navIconTint: Color = Color.Unspecified,
+    actionIconTint: Color = Color.Unspecified,
     onNavIconClick: () -> Unit = {},
     onActionsIconClick: () -> Unit = {},
     hasActionIcon: Boolean = true,
-    backgroundIconColor: Color = customBlockColor
+    backgroundIconColor: Color = customBlockColor,
+    containerColor: Color = customBackgroundColor
 ) {
     CenterAlignedTopAppBar(
         title = {
@@ -61,14 +64,15 @@ fun SneakersTopBar(
             }
         },
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = customBackgroundColor,
-            scrolledContainerColor = customBackgroundColor
+            containerColor = containerColor,
+            scrolledContainerColor = containerColor
         ),
         navigationIcon = {
             SneakersTopBarIcon(
                 onClick = onNavIconClick,
                 backgroundIconColor = if (isHome) Color.Transparent else backgroundIconColor,
                 icon = navIcon,
+                tint = navIconTint,
                 modifier = Modifier
                     .padding(start = 20.dp)
                     .size(44.dp)
@@ -80,7 +84,7 @@ fun SneakersTopBar(
                     Icon(
                         painter = actionsIcon,
                         contentDescription = null,
-                        tint = Color.Unspecified,
+                        tint = actionIconTint,
                         modifier = Modifier
                             .padding(end = 20.dp)
                             .clip(RoundedCornerShape(8.dp))
@@ -91,6 +95,7 @@ fun SneakersTopBar(
                         onClick = onActionsIconClick,
                         backgroundIconColor = backgroundIconColor,
                         icon = actionsIcon,
+                        tint = actionIconTint,
                         modifier = Modifier
                             .padding(end = 20.dp)
                             .size(44.dp)
@@ -106,6 +111,7 @@ fun SneakersTopBarIcon(
     onClick: () -> Unit,
     backgroundIconColor: Color,
     icon: Painter,
+    tint: Color,
     modifier: Modifier = Modifier
 ) {
     IconButton(
@@ -118,7 +124,7 @@ fun SneakersTopBarIcon(
         Icon(
             painter = icon,
             contentDescription = null,
-            tint = Color.Unspecified
+            tint = tint
         )
     }
 }

@@ -17,7 +17,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -31,13 +30,16 @@ import com.example.sneakershop.ui.theme.customBlockColor
 import com.example.sneakershop.ui.theme.customSubTextDarkColor
 
 @Composable
-fun SneakersNavBar() {
+fun SneakersNavBar(
+    initialIndexValue: Int = 0,
+    navigateToScreen: (Int) -> Unit
+) {
     val navBarItems = listOf(
         Pair(R.drawable.home, R.drawable.favorite),
         Pair(R.drawable.notification, R.drawable.profile)
     )
 
-    var selectedIndex by remember { mutableIntStateOf(0) }
+    val selectedIndex by remember { mutableIntStateOf(initialIndexValue) }
 
     NavigationBar(
         containerColor = Color.Transparent,
@@ -72,7 +74,7 @@ fun SneakersNavBar() {
                         selectedIndex = selectedIndex,
                         iconPair = pair,
                         onClick = { newIndex ->
-                            selectedIndex = newIndex
+                            navigateToScreen(newIndex)
                         },
                         pairBaseIndex = pairIndex * 2,
                         modifier = Modifier.weight(1f)

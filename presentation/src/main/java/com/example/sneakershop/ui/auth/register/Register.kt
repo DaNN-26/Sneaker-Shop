@@ -24,6 +24,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
@@ -64,6 +65,7 @@ fun Register(
                 onNavIconClick = navigateBack,
                 backgroundIconColor = customBackgroundColor,
                 hasActionIcon = false,
+                containerColor = customBlockColor,
                 modifier = Modifier.padding(top = 10.dp)
             )
         },
@@ -71,7 +73,6 @@ fun Register(
     ) { contentPadding ->
         Surface(
             modifier = Modifier
-                .background(customBlockColor)
                 .fillMaxSize()
                 .padding(contentPadding)
         ) {
@@ -93,7 +94,10 @@ fun Register(
             Column(
                 verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.padding(horizontal = 20.dp)
+                modifier = Modifier
+                    .blur(if (state.isIncorrectEmail || state.isEmptyValues || state.isRegisteredEmail || state.isPasswordIsTooSmall) 3.dp else 0.dp)
+                    .background(customBlockColor)
+                    .padding(horizontal = 20.dp)
             ) {
                 Text(
                     text = "Регистрация",

@@ -1,4 +1,4 @@
-package com.example.sneakershop.ui.main.details
+package com.example.sneakershop.ui.main.search
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
@@ -16,44 +16,41 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class DetailsViewmodel @Inject constructor(
+class SearchViewmodel @Inject constructor(
     private val productRepository: ProductRepository,
     private val favoritesRepository: FavoritesRepository,
     private val cartRepository: CartRepository
 ) : ViewModel() {
-    private val _state = MutableStateFlow(DetailsState())
+    private val _state = MutableStateFlow(SearchState())
     val state = _state.asStateFlow()
 
-    fun initializeProducts(
-        productId: Int,
-        productsIds: List<Int>
-    ) {
+    fun getProductsBySearch(query: String) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 getFavoriteAndCartProductsIds()
-                val currentProduct = productRepository.getProductById(productId)
-                val products = productRepository.getProductsByIds(productsIds)
+                _state.update { it.copy(isLoading = true) }
+                val products = productRepository.getProductBySearch(query)
                 _state.update { it.copy(
-                    currentProduct = currentProduct,
-                    products = products
+                    products = products,
+                    isLoading = false
                 ) }
             } catch (e: Exception) {
-                Log.d("DetailsViewmodel", e.message.toString())
+                Log.d("SearchViewmodel", e.message.toString())
             }
         }
     }
 
-    private suspend fun getFavoriteAndCartProductsIds() {
+    fun onQueryChange(query: String) {
+        _state.update { it.copy(query = query) }
+    }
+
+    suspend fun getFavoriteAndCartProductsIds() {
         val favorites = favoritesRepository.getFavoritesProductsIds()
         val cartProducts = cartRepository.getCartProductsIds()
         _state.update { it.copy(
             favoriteProductsIds = favorites,
             cartProductsIds = cartProducts
         ) }
-    }
-
-    fun selectProduct(product: Product) {
-        _state.update { it.copy(currentProduct = product) }
     }
 
     fun toggleFavorite(product: Product) {
@@ -69,7 +66,7 @@ class DetailsViewmodel @Inject constructor(
                         state.value.favoriteProductsIds + product.id
                 ) }
             } catch (e: Exception) {
-                Log.d("DetailsViewmodel", e.message.toString())
+                Log.d("PopularViewmodel", e.message.toString())
             }
         }
     }
@@ -87,7 +84,7 @@ class DetailsViewmodel @Inject constructor(
                         state.value.cartProductsIds + product.id
                 ) }
             } catch (e: Exception) {
-                Log.d("DetailsViewmodel", e.message.toString())
+                Log.d("SearchViewmodel", e.message.toString())
             }
         }
     }
