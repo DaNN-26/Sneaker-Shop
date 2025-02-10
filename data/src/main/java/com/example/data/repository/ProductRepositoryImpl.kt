@@ -19,7 +19,7 @@ class ProductRepositoryImpl @Inject constructor(
     override suspend fun getPopularProducts(count: Int): List<Product> {
         val columns = Columns.list("id", "title", "image", "price")
         return supabaseClient.from("product")
-            .select {
+            .select(columns) {
                 if (count > 0) limit(count.toLong())
                 filter {
                     eq("isPopular", true)

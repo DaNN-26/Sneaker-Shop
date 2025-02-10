@@ -1,5 +1,6 @@
 package com.example.sneakershop.ui.components
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -37,6 +38,7 @@ fun SearchField(
     onValueChange: (String) -> Unit,
     enabled: Boolean = true,
     hasMicrophoneIcon: Boolean = false,
+    @SuppressLint("ModifierParameter")
     modifier: Modifier = Modifier
 ) {
     TextField(
