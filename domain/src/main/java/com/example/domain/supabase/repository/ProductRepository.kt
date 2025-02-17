@@ -1,6 +1,6 @@
-package com.example.domain.repository
+package com.example.domain.supabase.repository
 
-import com.example.domain.model.Product
+import com.example.domain.supabase.model.Product
 
 interface ProductRepository {
     suspend fun getAllProducts(): List<Product>

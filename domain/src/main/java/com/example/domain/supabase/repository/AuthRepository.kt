@@ -1,4 +1,4 @@
-package com.example.domain.repository
+package com.example.domain.supabase.repository
 
 interface AuthRepository {
     suspend fun createAccount(

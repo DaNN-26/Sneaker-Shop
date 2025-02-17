@@ -1,8 +1,8 @@
-package com.example.data.repository
+package com.example.data.supabase.repository
 
-import com.example.domain.model.FavoriteProduct
-import com.example.domain.model.Product
-import com.example.domain.repository.FavoritesRepository
+import com.example.domain.supabase.model.FavoriteProduct
+import com.example.domain.supabase.model.Product
+import com.example.domain.supabase.repository.FavoritesRepository
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.postgrest.from

@@ -59,6 +59,7 @@ val navVersion: String by project
 val hiltVersion: String by project
 val coilVersion: String by project
 val supabaseVersion: String by project
+val roomVersion: String by project
 
 dependencies {
     implementation(project(":data"))
@@ -99,6 +100,11 @@ dependencies {
     //coil
     implementation("io.coil-kt.coil3:coil-compose:$coilVersion")
     implementation("io.coil-kt.coil3:coil-network-okhttp:$coilVersion")
+
+    //room
+    implementation("androidx.room:room-runtime:$roomVersion")
+    kapt("androidx.room:room-compiler:$roomVersion")
+    implementation("androidx.room:room-ktx:$roomVersion")
 
     //splash
     implementation("androidx.core:core-splashscreen:1.0.1")

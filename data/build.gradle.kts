@@ -40,6 +40,7 @@ android {
 val supabaseVersion: String by project
 val ktorVersion: String by project
 val hiltVersion: String by project
+val roomVersion: String by project
 
 dependencies {
     implementation(project(":domain"))
@@ -62,4 +63,9 @@ dependencies {
     //hilt
     implementation("com.google.dagger:hilt-android:$hiltVersion")
     kapt("com.google.dagger:hilt-compiler:$hiltVersion")
+
+    //room
+    implementation("androidx.room:room-runtime:$roomVersion")
+    kapt("androidx.room:room-compiler:$roomVersion")
+    implementation("androidx.room:room-ktx:$roomVersion")
 }

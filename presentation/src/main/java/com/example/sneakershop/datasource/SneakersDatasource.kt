@@ -1,6 +1,6 @@
 package com.example.sneakershop.datasource
 
-import com.example.domain.model.ProductCategory
+import com.example.domain.supabase.model.ProductCategory
 import com.example.sneakershop.R
 import com.example.sneakershop.model.OnboardingSlide
 

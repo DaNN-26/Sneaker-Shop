@@ -3,11 +3,11 @@ package com.example.sneakershop.ui.main.catalogue
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.model.Product
-import com.example.domain.model.ProductCategory
-import com.example.domain.repository.CartRepository
-import com.example.domain.repository.FavoritesRepository
-import com.example.domain.repository.ProductRepository
+import com.example.domain.supabase.model.Product
+import com.example.domain.supabase.model.ProductCategory
+import com.example.domain.supabase.repository.CartRepository
+import com.example.domain.supabase.repository.FavoritesRepository
+import com.example.domain.supabase.repository.ProductRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

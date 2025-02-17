@@ -1,7 +1,7 @@
 package com.example.sneakershop.ui.main.catalogue
 
-import com.example.domain.model.Product
-import com.example.domain.model.ProductCategory
+import com.example.domain.supabase.model.Product
+import com.example.domain.supabase.model.ProductCategory
 import com.example.sneakershop.datasource.SneakersDatasource
 
 data class CatalogueState(

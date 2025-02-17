@@ -1,13 +1,13 @@
-package com.example.data.di
+package com.example.data.supabase.di
 
-import com.example.data.repository.AuthRepositoryImpl
-import com.example.data.repository.CartRepositoryImpl
-import com.example.data.repository.FavoritesRepositoryImpl
-import com.example.data.repository.ProductRepositoryImpl
-import com.example.domain.repository.AuthRepository
-import com.example.domain.repository.CartRepository
-import com.example.domain.repository.FavoritesRepository
-import com.example.domain.repository.ProductRepository
+import com.example.data.supabase.repository.AuthRepositoryImpl
+import com.example.data.supabase.repository.CartRepositoryImpl
+import com.example.data.supabase.repository.FavoritesRepositoryImpl
+import com.example.data.supabase.repository.ProductRepositoryImpl
+import com.example.domain.supabase.repository.AuthRepository
+import com.example.domain.supabase.repository.CartRepository
+import com.example.domain.supabase.repository.FavoritesRepository
+import com.example.domain.supabase.repository.ProductRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

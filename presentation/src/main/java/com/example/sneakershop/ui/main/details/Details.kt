@@ -52,7 +52,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
-import com.example.domain.model.Product
+import com.example.domain.supabase.model.Product
 import com.example.sneakershop.R
 import com.example.sneakershop.ui.components.CustomButton
 import com.example.sneakershop.ui.components.CustomLoadingIndicator
@@ -72,6 +72,7 @@ fun Details(
     viewmodel: DetailsViewmodel,
     productId: Int,
     productsIdsList: List<Int>,
+    navigateToCart: () -> Unit,
     navigateBack: () -> Unit
 ) {
     val state by viewmodel.state.collectAsState()
@@ -88,6 +89,7 @@ fun Details(
                 navIcon = painterResource(R.drawable.back),
                 onNavIconClick = navigateBack,
                 actionsIcon = painterResource(R.drawable.shopping_cart),
+                onActionsIconClick = navigateToCart,
                 isDetails = true
             )
         },

@@ -1,6 +1,6 @@
 package com.example.sneakershop.ui.main.details
 
-import com.example.domain.model.Product
+import com.example.domain.supabase.model.Product
 
 data class DetailsState(
     val currentProduct: Product? = null,

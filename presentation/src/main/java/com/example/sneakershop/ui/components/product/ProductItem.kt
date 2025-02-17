@@ -30,7 +30,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
-import com.example.domain.model.Product
+import com.example.domain.supabase.model.Product
 import com.example.sneakershop.R
 import com.example.sneakershop.ui.theme.customAccentColor
 import com.example.sneakershop.ui.theme.customBackgroundColor

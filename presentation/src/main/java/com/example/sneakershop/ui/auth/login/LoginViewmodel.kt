@@ -1,7 +1,7 @@
 package com.example.sneakershop.ui.auth.login
 
 import androidx.lifecycle.ViewModel
-import com.example.domain.repository.AuthRepository
+import com.example.domain.supabase.repository.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

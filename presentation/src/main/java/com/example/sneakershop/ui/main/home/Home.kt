@@ -32,8 +32,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.domain.model.Product
-import com.example.domain.model.ProductCategory
+import com.example.domain.supabase.model.Product
+import com.example.domain.supabase.model.ProductCategory
 import com.example.sneakershop.R
 import com.example.sneakershop.datasource.SneakersDatasource
 import com.example.sneakershop.ui.components.SearchField
@@ -53,6 +53,7 @@ fun Home(
     navigateToPopular: () -> Unit,
     navigateToDetails: (Product, List<Product>) -> Unit,
     navigateToSearch: () -> Unit,
+    navigateToCart: () -> Unit,
     navigateToScreen: (Int) -> Unit
 ) {
     val state by viewmodel.state.collectAsState()
@@ -67,12 +68,14 @@ fun Home(
                 title = "Главная",
                 isHome = true,
                 navIcon = painterResource(R.drawable.side_menu),
-                actionsIcon = painterResource(R.drawable.shopping_cart)
+                actionsIcon = painterResource(R.drawable.shopping_cart),
+                onActionsIconClick = navigateToCart
             )
         },
         bottomBar = {
             SneakersNavBar(
-                navigateToScreen = { navigateToScreen(it) }
+                navigateToScreen = { navigateToScreen(it) },
+                navigateToCart = navigateToCart
             )
         }
     ) { contentPadding ->

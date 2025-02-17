@@ -1,6 +1,7 @@
 package com.example.sneakershop.ui.main.search
 
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -27,7 +28,8 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.domain.model.Product
+import com.example.domain.localdb.model.SearchQuery
+import com.example.domain.supabase.model.Product
 import com.example.sneakershop.R
 import com.example.sneakershop.ui.components.CustomLoadingIndicator
 import com.example.sneakershop.ui.components.SearchField
@@ -48,6 +50,8 @@ fun Search(
 
     LaunchedEffect(Unit) {
         focusRequester.requestFocus()
+
+        viewmodel.getSearchQueries()
 
         if(state.products.isNotEmpty())
             viewmodel.getFavoriteAndCartProductsIds()
@@ -72,6 +76,7 @@ fun Search(
             SearchField(
                 onDoneClick = { viewmodel.getProductsBySearch(state.query) },
                 value = state.query,
+                isError = state.isEmptyQuery,
                 onValueChange = { viewmodel.onQueryChange(it) },
                 hasMicrophoneIcon = true,
                 modifier = Modifier
@@ -89,7 +94,10 @@ fun Search(
                             viewmodel.onQueryChange(newQuery)
                             viewmodel.getProductsBySearch(newQuery)
                         },
-                        queries = listOf("air", "GHBDTN", "GHBDTN")
+                        onSearchQueryLongClick = { searchQuery ->
+                            viewmodel.deleteSearchQuery(searchQuery)
+                        },
+                        queries = state.queriesList
                     )
                 else
                     ProductsGrid(
@@ -106,21 +114,26 @@ fun Search(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun SearchQueries(
     onSearchQueryClick: (String) -> Unit,
-    queries: List<String>,
+    onSearchQueryLongClick: (SearchQuery) -> Unit,
+    queries: List<SearchQuery>,
 ) {
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(16.dp),
         modifier = Modifier.padding(horizontal = 20.dp)
     ) {
-        items(queries) { query ->
+        items(queries) { searchQuery ->
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     .fillMaxSize()
-                    .clickable { onSearchQueryClick(query) }
+                    .combinedClickable(
+                        onClick = { onSearchQueryClick(searchQuery.query) },
+                        onLongClick = { onSearchQueryLongClick(searchQuery) }
+                    )
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.clock),
@@ -129,7 +142,7 @@ fun SearchQueries(
                 )
                 Spacer(modifier = Modifier.width(12.dp))
                 Text(
-                    text = query,
+                    text = searchQuery.query,
                     fontSize = 14.sp,
                     fontFamily = newPeninimMTFontFamily
                 )

@@ -14,8 +14,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.example.domain.model.Product
-import com.example.domain.model.ProductCategory
+import com.example.domain.supabase.model.Product
+import com.example.domain.supabase.model.ProductCategory
 import com.example.sneakershop.R
 import com.example.sneakershop.ui.components.CustomLoadingIndicator
 import com.example.sneakershop.ui.components.main.CategoriesRow

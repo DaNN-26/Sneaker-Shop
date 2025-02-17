@@ -1,6 +1,6 @@
 package com.example.sneakershop.ui.main.popular
 
-import com.example.domain.model.Product
+import com.example.domain.supabase.model.Product
 
 data class PopularState(
     val popularProducts: List<Product> = emptyList(),

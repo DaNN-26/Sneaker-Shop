@@ -38,6 +38,7 @@ android {
 }
 
 val hiltVersion: String by project
+val roomVersion: String by project
 
 dependencies {
     implementation(libs.androidx.core.ktx)
@@ -53,4 +54,9 @@ dependencies {
 
     //serialization
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
+
+    //room
+    implementation("androidx.room:room-runtime:$roomVersion")
+    kapt("androidx.room:room-compiler:$roomVersion")
+    implementation("androidx.room:room-ktx:$roomVersion")
 }

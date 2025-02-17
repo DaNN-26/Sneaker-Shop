@@ -1,6 +1,6 @@
-package com.example.data.repository
+package com.example.data.supabase.repository
 
-import com.example.domain.repository.AuthRepository
+import com.example.domain.supabase.repository.AuthRepository
 import io.github.jan.supabase.auth.Auth
 import io.github.jan.supabase.auth.providers.builtin.Email
 import kotlinx.serialization.json.buildJsonObject

@@ -32,7 +32,8 @@ import com.example.sneakershop.ui.theme.customSubTextDarkColor
 @Composable
 fun SneakersNavBar(
     initialIndexValue: Int = 0,
-    navigateToScreen: (Int) -> Unit
+    navigateToScreen: (Int) -> Unit,
+    navigateToCart: () -> Unit
 ) {
     val navBarItems = listOf(
         Pair(R.drawable.home, R.drawable.favorite),
@@ -59,7 +60,7 @@ fun SneakersNavBar(
                 modifier = Modifier.fillMaxWidth()
             )
             SneakersNavBarFloatingButton(
-                onClick = { /*TODO*/ },
+                onClick = navigateToCart,
                 modifier = Modifier
                     .align(Alignment.TopCenter)
                     .shadow(16.dp, CircleShape, spotColor = customAccentColor)

@@ -1,6 +1,6 @@
 package com.example.sneakershop.navigation
 
-import com.example.domain.model.ProductCategory
+import com.example.domain.supabase.model.ProductCategory
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -26,4 +26,6 @@ sealed class NavDestination {
     data object Favorites : NavDestination()
     @Serializable
     data object Search : NavDestination()
+    @Serializable
+    data object Cart : NavDestination()
 }

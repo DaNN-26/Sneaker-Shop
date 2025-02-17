@@ -10,7 +10,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.example.domain.model.Product
+import com.example.domain.supabase.model.Product
 import com.example.sneakershop.R
 import com.example.sneakershop.ui.components.CustomLoadingIndicator
 import com.example.sneakershop.ui.components.main.ProductsGrid
@@ -24,6 +24,7 @@ fun Favorites(
     viewmodel: FavoritesViewmodel,
     navigateToDetails: (Product, List<Product>) -> Unit,
     navigateBack: () -> Unit,
+    navigateToCart: () -> Unit,
     navigateToScreen: (Int) -> Unit
 ) {
     val state by viewmodel.state.collectAsState()
@@ -45,7 +46,8 @@ fun Favorites(
         bottomBar = {
             SneakersNavBar(
                 initialIndexValue = 1,
-                navigateToScreen = { navigateToScreen(it) }
+                navigateToScreen = { navigateToScreen(it) },
+                navigateToCart = navigateToCart
             )
         }
     ) { contentPadding ->

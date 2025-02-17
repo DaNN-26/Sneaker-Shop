@@ -11,6 +11,8 @@ import com.example.sneakershop.ui.auth.login.LoginViewmodel
 import com.example.sneakershop.ui.auth.onboarding.Onboarding
 import com.example.sneakershop.ui.auth.register.Register
 import com.example.sneakershop.ui.auth.register.RegisterViewmodel
+import com.example.sneakershop.ui.main.cart.Cart
+import com.example.sneakershop.ui.main.cart.CartViewmodel
 import com.example.sneakershop.ui.main.catalogue.Catalogue
 import com.example.sneakershop.ui.main.catalogue.CatalogueViewmodel
 import com.example.sneakershop.ui.main.details.Details
@@ -85,6 +87,7 @@ fun NavigationHost() {
                     ))
                 },
                 navigateToSearch = { navController.navigate(NavDestination.Search) },
+                navigateToCart = { navController.navigate(NavDestination.Cart) },
                 navigateToScreen = { index ->
                     when (index) {
                         0 -> navController.navigate(NavDestination.Home)
@@ -130,6 +133,7 @@ fun NavigationHost() {
                 viewmodel = viewmodel,
                 productId = details.productId,
                 productsIdsList = details.productsIdsList,
+                navigateToCart = { navController.navigate(NavDestination.Cart) },
                 navigateBack = { navController.popBackStack() }
             )
         }
@@ -144,6 +148,7 @@ fun NavigationHost() {
                     ))
                 },
                 navigateBack = { navController.popBackStack() },
+                navigateToCart = { navController.navigate(NavDestination.Cart) },
                 navigateToScreen = { index ->
                     when (index) {
                         0 -> navController.navigate(NavDestination.Home)
@@ -164,6 +169,13 @@ fun NavigationHost() {
                         productsIdsList = productsList.map { it.id }
                     ))
                 },
+                navigateBack = { navController.popBackStack() }
+            )
+        }
+        composable<NavDestination.Cart> {
+            val viewmodel = hiltViewModel<CartViewmodel>()
+            Cart(
+                viewmodel = viewmodel,
                 navigateBack = { navController.popBackStack() }
             )
         }

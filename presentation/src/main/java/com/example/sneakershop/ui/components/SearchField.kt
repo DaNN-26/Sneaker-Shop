@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.sp
 import com.example.sneakershop.R
 import com.example.sneakershop.ui.theme.customBlockColor
 import com.example.sneakershop.ui.theme.customHintColor
+import com.example.sneakershop.ui.theme.customRedColor
 import com.example.sneakershop.ui.theme.customSubTextDarkColor
 import com.example.sneakershop.ui.theme.newPeninimMTFontFamily
 
@@ -35,6 +36,7 @@ import com.example.sneakershop.ui.theme.newPeninimMTFontFamily
 fun SearchField(
     onDoneClick: () -> Unit = {},
     value: String,
+    isError: Boolean = false,
     onValueChange: (String) -> Unit,
     enabled: Boolean = true,
     hasMicrophoneIcon: Boolean = false,
@@ -46,6 +48,7 @@ fun SearchField(
         onValueChange = { onValueChange(it) },
         singleLine = true,
         enabled = enabled,
+        isError = isError,
         placeholder = {
             Text(
                 text = "Поиск",
@@ -61,7 +64,7 @@ fun SearchField(
             disabledContainerColor = customBlockColor,
             errorContainerColor = customBlockColor,
             unfocusedIndicatorColor = customBlockColor,
-            errorIndicatorColor = customBlockColor,
+            errorIndicatorColor = customRedColor,
             focusedIndicatorColor = customBlockColor,
             disabledIndicatorColor = customBlockColor
         ),
